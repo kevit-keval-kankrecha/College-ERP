@@ -1,5 +1,6 @@
 import { Router } from "express";
 import departmentController from './department.controller';
+import auth from "../../utils/auth";
 
 class departmentRoutes {
     public router:Router;
@@ -13,16 +14,16 @@ class departmentRoutes {
 
     initalizeRoutes(){
         //Create Department
-        this.router.post('/add',this.departmentController.createDepartment);
+        this.router.post('/add',auth,this.departmentController.createDepartment);
 
         //List Departments
-        this.router.get('/',this.departmentController.getDepartments);
+        this.router.get('/',auth,this.departmentController.getDepartments);
 
         //Update Departments
-        this.router.patch('/update/:id',this.departmentController.updateDepartment);
+        this.router.patch('/update/:id',auth,this.departmentController.updateDepartment);
 
         //Delete Departments
-        this.router.delete('/delete/:id',this.departmentController.deleteDepartment);
+        this.router.delete('/delete/:id',auth,this.departmentController.deleteDepartment);
     }
 
 }
