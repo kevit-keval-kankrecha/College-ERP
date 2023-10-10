@@ -1,8 +1,10 @@
 import {Application} from 'express';
-import staffRoutes from './components/staff/staff.routes';
+import departmentRoutes from './Components/Department/department.routes';
+import IndexRoute from './index';
 
 export default class ApplicationConfig {
     public static registerRoute(app:Application){
-        app.use('/staff',staffRoutes);
+        app.use('/', IndexRoute);
+        app.use('/department',departmentRoutes);
     }
 }

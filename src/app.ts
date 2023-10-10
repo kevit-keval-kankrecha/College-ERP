@@ -1,8 +1,10 @@
 import mongoose from 'mongoose';
 import * as express from 'express';
 import * as http from 'http';
+import * as bodyParser from 'body-parser';
 
 import Config from './config';
+import applicationRoutes from './application.routes';
 
 const mongoUrl: string = Config.mongodb.url;
 const PORT: string | number = Config.server.port;
@@ -17,8 +19,13 @@ class app {
     server.listen(PORT, () => {
       console.log('Server Started..');
     });
-
+    this.config();
     this.mongoSetup();
+  
+  }
+  private config():void{
+    this.app.use(bodyParser.json({extends:true}));
+    applicationRoutes.registerRoute(this.app);
   }
   private mongoSetup(): void {
     const dbOptions = {
