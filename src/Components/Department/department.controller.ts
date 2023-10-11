@@ -10,23 +10,22 @@ import {
 class departmentController {
     async createDepartment(req, res, next) {
         try {
-                const departmentObj = req.body;
-                const department = await createDepartment(departmentObj);
-                return res.status(200).send({ data: department });
-       
+            const departmentObj = req.body;
+            const department = await createDepartment(departmentObj);
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": department, "message": "New Department Created Successfully" } });
         }
         catch (error) {
-            res.status(500).send("Invalid  token");
+            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while creating new Department" } });
         }
     }
 
     async getDepartments(req, res, next) {
         try {
             const departments = await findDepartments();
-            res.status(200).send({ data: departments });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": departments, "message":"Success" } });
         }
         catch (error) {
-            return next(error);
+            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while Loading Departments" } });
         }
     }
 
@@ -35,14 +34,14 @@ class departmentController {
             const id = req.params.id;
             const department = await findDepartmentById(id);
             if (!department) {
-                res.status(404).send({ error: 'Department Not Found' })
+                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Department not found" } });
             }
 
             for (const field in req.body) {
                 department[field] = req.body[field]
             }
             await department.save();
-            res.status(200).send({ data: department });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": department, "message":"Department Updated Sucessfully" } });
 
         }
         catch (error) {
@@ -55,15 +54,14 @@ class departmentController {
             const id = req.params.id;
             const department = await findDepartmentById(id);
             if (!department) {
-                return next(
-                )
+                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Department not found" } });
             }
             await department.deleteOne();
-            res.status(200).send({ data: department });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": department, "message":"Department Deleted Sucessfully" } });
 
         }
         catch (error) {
-            res.status(500).send({ error: error });
+            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while deleting Users" } });
         }
     }
 }
