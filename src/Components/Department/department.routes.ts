@@ -1,29 +1,30 @@
 import { Router } from "express";
 import departmentController from './department.controller';
-import auth from "../../utils/auth";
+import authentication from "../../utils/authentication";
+import authorization from "../../utils/authorization";
 
 class departmentRoutes {
-    public router:Router;
+    public router: Router;
 
     departmentController = new departmentController();
 
-    constructor(){
-        this.router=Router();
+    constructor() {
+        this.router = Router();
         this.initalizeRoutes();
     }
 
-    initalizeRoutes(){
+    initalizeRoutes() {
         //Create Department
-        this.router.post('/add',auth,this.departmentController.createDepartment);
+        this.router.post('/add', authentication,authentication, this.departmentController.createDepartment);
 
         //List Departments
-        this.router.get('/',auth,this.departmentController.getDepartments);
+        this.router.get('/', authentication, authorization, this.departmentController.getDepartments);
 
         //Update Departments
-        this.router.patch('/update/:id',auth,this.departmentController.updateDepartment);
+        this.router.patch('/update/:id', authentication, authorization, this.departmentController.updateDepartment);
 
         //Delete Departments
-        this.router.delete('/delete/:id',auth,this.departmentController.deleteDepartment);
+        this.router.delete('/delete/:id', authentication, authorization, this.departmentController.deleteDepartment);
     }
 
 }

@@ -71,13 +71,8 @@ class userController {
 
     async getUsers(req, res, next) {
         try {
-            if (req.user.role === 'Admin') {
-                const users = await findUsers();
-                res.status(200).send({ data: users });
-            }
-            else {
-                res.status(401).send({ error: "Unauthorized" });
-            }
+            const users = await findUsers(req.accessRoles);
+            res.status(200).send({ data: users });
         }
         catch (error) {
             return next(error);
@@ -86,14 +81,10 @@ class userController {
 
     async updateUser(req, res, next) {
         try {
-            let id;
-            if (req.user.role === 'Admin') {
-                id = req.params.id;
+            let id=req.params.id;
+            if(!req.params.id){
+                id=req.user._id;
             }
-            else if (req.user.role === 'Faculty') {
-                id = req.user._id;
-            }
-
             const user = await findUserById(id);
             if (!user) {
                 res.status(404).send({ error: 'user Not Found' })
@@ -112,18 +103,30 @@ class userController {
 
     async deleteUser(req, res, next) {
         try {
-            if (req.user.role === 'Admin') {
-                const id = req.params.id;
-                const user = await findUserById(id);
-                if (!user) {
-                   res.status(404).send("User Not Found");
-                }
-                await user.deleteOne();
-                res.status(200).send({ data: user });
+            const id = req.params.id;
+            const user = await findUserById(id);
+            if (!user) {
+                res.status(404).send("User Not Found");
             }
+            await user.deleteOne();
+            res.status(200).send({ data: user });
+
         }
         catch (error) {
             res.status(500).send({ error: error });
+        }
+    }
+
+    async getProfile(req,res,next){
+        try{
+            const user=await findUserById(req.user._id);
+            if(!user){
+                res.status(404).send("User not Found");
+            }
+            res.status(200).send({data:user});
+        }
+        catch{
+            res.status(500).send("Internal Server");
         }
     }
 }

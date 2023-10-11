@@ -21,15 +21,23 @@ export async function createUser(userBody) {
  */
 export async function findUserByEmailId(emailId) {
     try {
-        return await User.findOne({emailId});
+        return await User.findOne({ emailId });
     }
     catch (error) {
     }
 }
 
-export async function findUsers() {
+export async function findUsers(accessRoles) {
     try {
-        return await User.find().sort({ name: 1 });
+        return await User.aggregate([
+            {
+                '$match': {
+                    'role': {
+                        '$in': accessRoles
+                    }
+                }
+            }
+        ]).exec();
     }
     catch (error) {
     }
@@ -37,13 +45,14 @@ export async function findUsers() {
 
 /**
  * 
- * @param id DepartmentID
- * @returns Department
+ * @param id UserID
+ * @returns User
  */
 export async function findUserById(id) {
     try {
-        return await User.findById(id);
+        const user=await User.findById(id);
+        return user;
     }
-    catch(error) {
+    catch (error) {
     }
 }

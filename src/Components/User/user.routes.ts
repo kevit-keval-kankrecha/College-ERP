@@ -1,35 +1,39 @@
 import { Router } from "express";
 import userController from './user.controller';
-import auth from '../../utils/auth';
+import authentication from '../../utils/authentication';
+import authorization from '../../utils/authorization';
 
 class userRoutes {
-    public router:Router;
+    public router: Router;
 
     userController = new userController();
 
-    constructor(){
-        this.router=Router();
+    constructor() {
+        this.router = Router();
         this.initalizeRoutes();
     }
 
-    initalizeRoutes(){
+    initalizeRoutes() {
         //Create New User
-        this.router.post('/add',this.userController.createUser);    
+        this.router.post('/add', this.userController.createUser);
 
-         //Login User
-         this.router.post('/login',this.userController.loginUser); 
+        //Login User
+        this.router.post('/login', this.userController.loginUser);
 
         //LogOut Users
-        this.router.post('/logout',auth,this.userController.logOutUser); 
+        this.router.post('/logout', authentication,authorization, this.userController.logOutUser);
 
         //List User
-        this.router.get('/',auth,this.userController.getUsers);
+        this.router.get('/', authentication,authorization, this.userController.getUsers);
 
-         //Update User
-         this.router.patch('/update/:id?',auth,this.userController.updateUser);
+        //Update User
+        this.router.patch('/update/:id?', authentication, authorization, this.userController.updateUser);
 
-         //Delete Departments
-         this.router.delete('/delete/:id',auth,this.userController.deleteUser);
+        //Delete User
+        this.router.delete('/delete/:id?', authentication, authorization, this.userController.deleteUser);
+
+        //Get Profile
+        this.router.get('/me', authentication, authorization, this.userController.getProfile); 
     }
 
 }
