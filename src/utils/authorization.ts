@@ -19,7 +19,7 @@ export default async (req, res, next) => {
     }
 
     //manage access in User model
-    if (req.baseUrl === '/faculty') {
+    else if (req.baseUrl === '/faculty') {
 
         //Admin can manage all user
         if (loginUser.role === 'Admin') {
@@ -30,20 +30,32 @@ export default async (req, res, next) => {
 
         //faculty can only change their data and view profile for theirself
         else if (loginUser.role === 'Faculty') {
-            if ((req.method === 'PATCH' && req.params.id == req.loginUser._id && (req.body.role !== 'Admin'  || req.body.role===undefined)) || (req.method === 'GET' && req.path === '/me')) {
+            if ((req.method === 'PATCH' && req.params.id == req.loginUser._id && (req.body.role !== 'Admin')) || (req.method === 'GET' && req.path === '/me')) {
                 next();
             }
             else {
                 res.status(403).send({ "success": false, "error": { "statusCode": 403, "message": "You Have Not Permission to access it" } })
             }
         }
+
     }
 
-    if (req.baseUrl === '/student') {
+    //manage access for the student model
+    else if (req.baseUrl === '/student') {
         if (req.loginUser.role === 'Admin' || req.loginUser.role === 'Faculty') {
+            req.accessRoles = ['Student'];
             next();
         }
 
+        //Student can only change their data and view profile for theirself
+        else if (loginUser.role === 'Student') {
+            if ((req.method === 'PATCH' && req.params.id == req.loginUser._id && (req.body.role !== 'Admin' && req.body.role === 'Faculty')) || (req.method === 'GET' && req.path === '/me')) {
+                next();
+            }
+            else {
+                res.status(403).send({ "success": false, "error": { "statusCode": 403, "message": "You Have Not Permission to access it" } })
+            }
+        }
 
 
     }
