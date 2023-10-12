@@ -10,6 +10,8 @@ export default async (req, res, next) => {
         const { id } = jwt.verify(token, privateSecret);
 
         const faculty = await findFacultyById(id);
+
+
         if (!faculty) {
             res.status(400).send({ "success": false, "error": { "statusCode": 401, "message": "faculty not Found" } });
         }

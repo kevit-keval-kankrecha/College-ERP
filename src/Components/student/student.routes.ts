@@ -1,5 +1,5 @@
 import { Router } from "express";
-import facultyController from './faculty.controller';
+import facultyController from './student.controller';
 import authentication from '../../utils/authentication';
 import authorization from '../../utils/authorization';
 
@@ -15,7 +15,7 @@ class facultyRoutes {
 
     initalizeRoutes() {
         //Create New User
-        this.router.post('/add', this.facultyController.createFaculty);
+        this.router.post('/add',authentication,authorization, this.facultyController.createFaculty);
 
         //Login User
         this.router.post('/login', this.facultyController.loginFaculty);
@@ -24,7 +24,7 @@ class facultyRoutes {
         this.router.post('/logout', authentication,authorization, this.facultyController.logOutFaculty);
 
         //List User
-        this.router.get('/', authentication, authorization,this.facultyController.getFaculties);
+        this.router.get('/', authentication, this.facultyController.getFaculties);
 
         //Update User
         this.router.patch('/update/:id?', authentication,authorization, this.facultyController.updateFaculty);
@@ -33,7 +33,7 @@ class facultyRoutes {
         this.router.delete('/delete/:id?', authentication,authorization, this.facultyController.deleteFaculty);
 
         //Get Profile
-        this.router.get('/me', authentication, this.facultyController.getProfile); 
+        this.router.get('/me', authentication,authorization, this.facultyController.getProfile); 
     }
 
 }

@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt';
 const { Schema, model } = mongoose;
 
 // Faculty Schema For DataBase
-const facultySchema = new Schema({
+const studentSchema = new Schema({
     name: {
         type: Schema.Types.String,
         required: true
@@ -40,7 +40,7 @@ const facultySchema = new Schema({
 });
 
 //encrypt password
-facultySchema.pre('save', async function (next) {
+studentSchema.pre('save', async function (next) {
     try {
         if (this.isModified('password')) {
             this.password = await bcrypt.hash(this.password, 8);
@@ -53,5 +53,5 @@ facultySchema.pre('save', async function (next) {
 });
 
 
-const Faculty = model('Faculty', facultySchema);
-export default Faculty;
+const Staff = model('Staff', studentSchema);
+export default Staff;

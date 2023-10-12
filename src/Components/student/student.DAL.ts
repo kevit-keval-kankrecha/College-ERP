@@ -1,5 +1,5 @@
 
-import Faculty from './faculty.model'
+import Faculty from './student.model'
 
 
 /**
@@ -20,7 +20,6 @@ export async function createFaculty(facultyBody) {
  * @param facultyBody => Department Object to be created.
  */
 export async function findFacultyByEmailId(emailId) {
-
     try {
         return await Faculty.findOne({ emailId });
     }
