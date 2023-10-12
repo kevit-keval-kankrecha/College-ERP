@@ -15,16 +15,16 @@ class departmentRoutes {
 
     initalizeRoutes() {
         //Create Department
-        this.router.post('/add', authentication,authentication, this.departmentController.createDepartment);
+        this.router.post('/add', authentication,authorization, this.departmentController.createDepartment);
 
         //List Departments
         this.router.get('/', authentication, authorization, this.departmentController.getDepartments);
 
         //Update Departments
-        this.router.patch('/update/', authentication, authorization, this.departmentController.updateDepartment);
+        this.router.patch('/update', authentication, authorization, this.departmentController.updateDepartment);
 
         //Delete Departments
-        this.router.delete('/delete/', authentication, authorization, this.departmentController.deleteDepartment);
+        this.router.delete('/delete', authentication, authorization, this.departmentController.deleteDepartment);
     }
 
 }
