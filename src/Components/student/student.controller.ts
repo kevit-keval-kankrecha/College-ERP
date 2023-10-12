@@ -2,42 +2,42 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
 import {
-    createFaculty,
-    findFacultyByEmailId,
-    findFacultyById,
+    createStudent,
+    findStudentByEmailId,
+    findStudentyById,
     findFaculties
 } from './student.DAL'
 
 
 class facultyController {
-    async createFaculty(req, res, next) {
+    async createStudent(req, res, next) {
         try {
-            const facultyObj = req.body;
-            const faculty = await createFaculty(facultyObj);
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message":"New Faculty Created Successfully" } });
+            const studentObj = req.body;
+            const student = await createStudent(studentObj);
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": student, "message": "New Student Created Successfully" } });
         }
         catch (error) {
-            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while creating new user" } });
+            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while creating new Student" } });
         }
     }
 
-    async loginFaculty(req, res, next) {
+    async loginStudent(req, res, next) {
         try {
             const { emailId, password } = req.body;
             if (!emailId || !password) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Please Provide an emailId and password" } });
             }
-            const faculty = await findFacultyByEmailId(emailId);
-            if (faculty) {
-                const match = await bcrypt.compare(password, faculty.password);
+            const student = await findStudentByEmailId(emailId);
+            if (student) {
+                const match = await bcrypt.compare(password, student.password);
 
                 if (match) {
                     const privateSecret = "12abnjbnjh3gdhr45678451@@##!@#!";
 
-                    const token = jwt.sign({ id: faculty._id, emailId: faculty.emailId, departmentId: faculty.departmentId }, privateSecret);
-                    faculty.authToken = token;
-                    await faculty.save();
-                    res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty.authToken, "message":"Authentication Token Generated" } });
+                    const token = jwt.sign({ id: student._id, emailId: student.emailId, departmentId: student.departmentId }, privateSecret);
+                    student.authToken = token;
+                    await student.save();
+                    res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": student.authToken, "message": "Authentication Token Generated" } });
                 }
                 else {
                     res.status(401).send({ "success": false, "error": { "statusCode": 401, "message": "Invalid EmailId or Password" } });
@@ -52,26 +52,26 @@ class facultyController {
         }
     }
 
-    async logOutFaculty(req, res, next) {
+    async logOutStudent(req, res, next) {
         try {
-            const id = req.user.id;
-            const faculty = await findFacultyById(id);
-            if (!faculty) {
-                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
+            const id = req.loginUser.id;
+            const student = await findStudentyById(id);
+            if (!student) {
+                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "student not found" } });
             }
-            faculty.authToken = ' ';
-            await faculty.save();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message":"faculty Logout Successfully" } });
+            student.authToken = ' ';
+            await student.save();
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": student, "message": "student Logout Successfully" } });
         }
         catch (error) {
-            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while Login" } });
+            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while LogOut" } });
         }
     }
 
-    async getFaculties(req, res, next) {
+    async getStudents(req, res, next) {
         try {
-            const faculties = await findFaculties(req.accessRoles);
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculties, "message":"Success" } });
+            const students = await findFaculties(req.accessRoles);
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": students, "message": "Success" } });
 
         }
         catch (error) {
@@ -82,8 +82,8 @@ class facultyController {
     async updateFaculty(req, res, next) {
         try {
             let id = req.params.id;
-            
-            const faculty = await findFacultyById(id);
+
+            const faculty = await findStudentyById(id);
             if (!faculty) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
             }
@@ -92,7 +92,7 @@ class facultyController {
                 faculty[field] = req.body[field]
             }
             await faculty.save();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message":"faculty Updated Sucessfully" } });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message": "faculty Updated Sucessfully" } });
         }
         catch (error) {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while updating faculty" } });
@@ -102,12 +102,12 @@ class facultyController {
     async deleteFaculty(req, res, next) {
         try {
             const id = req.params.id;
-            const faculty = await findFacultyById(id);
+            const faculty = await findStudentyById(id);
             if (!faculty) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
             }
             await faculty.deleteOne();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message":"faculty Deleted Sucessfully" } });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message": "faculty Deleted Sucessfully" } });
 
         }
         catch (error) {
@@ -117,11 +117,11 @@ class facultyController {
 
     async getProfile(req, res, next) {
         try {
-            const faculty = await findFacultyById(req.user._id);
-            if (faculty) {
-                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
+            const student = await findStudentyById(req.loginUser._id);
+            if (!student) {
+                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Student  not found" } });
             }
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data":faculty, "message":"Profile" } });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": student, "message": "Profile" } });
         }
         catch {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while Loading your profile" } });

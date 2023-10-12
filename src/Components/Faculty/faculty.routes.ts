@@ -15,7 +15,7 @@ class facultyRoutes {
 
     initalizeRoutes() {
         //Create New User
-        this.router.post('/add', this.facultyController.createFaculty);
+        this.router.post('/add',authentication,authorization, this.facultyController.createFaculty);
 
         //Login User
         this.router.post('/login', this.facultyController.loginFaculty);
@@ -33,7 +33,7 @@ class facultyRoutes {
         this.router.delete('/delete/:id?', authentication,authorization, this.facultyController.deleteFaculty);
 
         //Get Profile
-        this.router.get('/me', authentication, this.facultyController.getProfile); 
+        this.router.get('/me', authentication,authorization, this.facultyController.getProfile); 
     }
 
 }

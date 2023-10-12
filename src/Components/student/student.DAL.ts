@@ -1,14 +1,15 @@
 
-import Faculty from './student.model'
+import * as mongoose from 'mongoose';
+import Student from './student.model'
 
 
 /**
  * 
- * @param facultyBody => Department Object to be created.
+ * @param studentBody => Department Object to be created.
  */
-export async function createFaculty(facultyBody) {
+export async function createStudent(studentBody) {
     try {
-        return await Faculty.create(facultyBody);
+        return await Student.create(studentBody);
     }
     catch (error) {
 
@@ -17,11 +18,11 @@ export async function createFaculty(facultyBody) {
 
 /**
  * 
- * @param facultyBody => Department Object to be created.
+ * @param studentBody => Department Object to be created.
  */
-export async function findFacultyByEmailId(emailId) {
+export async function findStudentByEmailId(emailId) {
     try {
-        return await Faculty.findOne({ emailId });
+        return await Student.findOne({ emailId });
     }
     catch (error) {
     }
@@ -29,7 +30,7 @@ export async function findFacultyByEmailId(emailId) {
 
 export async function findFaculties(accessRoles) {
     try {
-        return await Faculty.aggregate([
+        return await Student.aggregate([
             {
                 '$match': {
                     'role': {
@@ -48,10 +49,9 @@ export async function findFaculties(accessRoles) {
  * @param id UserID
  * @returns User
  */
-export async function findFacultyById(id) {
+export async function findStudentyById(id) {
     try {
-        return await Faculty.findById(id);
-        
+        return await Student.findById(new mongoose.Types.ObjectId(id));
     }
     catch (error) {
     }

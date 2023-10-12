@@ -1,4 +1,5 @@
 
+import mongoose from 'mongoose';
 import Faculty from './faculty.model'
 
 
@@ -51,8 +52,7 @@ export async function findFaculties(accessRoles) {
  */
 export async function findFacultyById(id) {
     try {
-        return await Faculty.findById(id);
-        
+        return await Faculty.findById(new mongoose.Types.ObjectId(id));
     }
     catch (error) {
     }

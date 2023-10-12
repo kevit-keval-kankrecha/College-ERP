@@ -57,7 +57,7 @@ class facultyController {
 
     async logOutFaculty(req, res, next) {
         try {
-            const id = req.faculty.id;
+            const id = req.loginUser.id;
             const faculty = await findFacultyById(id);
             if (!faculty) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
@@ -120,7 +120,7 @@ class facultyController {
 
     async getProfile(req, res, next) {
         try {
-            const faculty = await findFacultyById(req.faculty._id);
+            const faculty = await findFacultyById(req.loginUser._id);
             if (!faculty) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
             }

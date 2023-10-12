@@ -31,8 +31,13 @@ const studentSchema = new Schema({
         required: true,
         default: ' '
     },
-    role: {
-        type: Schema.Types.String,
+    semester: {
+        type: Schema.Types.Number,
+        requied: true,
+        default: 1
+    },
+    batchYear: {
+        type: Schema.Types.Date,
         required: true
     }
 }, {
@@ -53,5 +58,5 @@ studentSchema.pre('save', async function (next) {
 });
 
 
-const Staff = model('Staff', studentSchema);
-export default Staff;
+const Student = model('Student', studentSchema);
+export default Student;

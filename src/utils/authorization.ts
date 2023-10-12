@@ -2,15 +2,15 @@ import { findFacultyById } from '../Components/Faculty/faculty.DAL';
 
 export default async (req, res, next) => {
 
-    const faculty = await findFacultyById(req.faculty._id);
-    //if faculty not found
-    if (!faculty) {
+    const loginUser = req.loginUser;
+
+    if (!loginUser) {
         res.status(401).send({ "success": false, "error": { "statusCode": 401, "message": "Unauthorized" } })
     }
 
     //only Admin can manage Department model
     if (req.baseUrl === '/department') {
-        if (faculty.role === 'Admin') {
+        if (loginUser.role === 'Admin' && loginUser.role !== 'Faculty' && loginUser.role !== 'Student') {
             next();
         }
         else {
@@ -22,30 +22,29 @@ export default async (req, res, next) => {
     if (req.baseUrl === '/faculty') {
 
         //Admin can manage all user
-        if (faculty.role === 'Admin') {
+        if (loginUser.role === 'Admin') {
             //Faculty Access
             req.accessRoles = ['Faculty'];
-
             next();
-
         }
 
-        //faculty can only manage students
-        else if (faculty.role === 'Faculty') {
-            //faculty can update and delete theirself but can not change role
-            console.log(req.body.role);
-            if (JSON.stringify(req.faculty._id) === JSON.stringify(req.params.id) && req.body.role!=='Admin') {
+        //faculty can only change their data and view profile for theirself
+        else if (loginUser.role === 'Faculty') {
+            if ((req.method === 'PATCH' && req.params.id == req.loginUser._id && (req.body.role !== 'Admin'  || req.body.role===undefined)) || (req.method === 'GET' && req.path === '/me')) {
                 next();
             }
-
-            //faculty can not create new faculty
-            else if (req.body.role === 'Admin' && req.body.role === 'Faculty') {
-                res.status(403).send({ "success": false, "error": { "statusCode": 403, "message": "You Have Not Permission to access it" } })
-            }
-
             else {
                 res.status(403).send({ "success": false, "error": { "statusCode": 403, "message": "You Have Not Permission to access it" } })
             }
         }
+    }
+
+    if (req.baseUrl === '/student') {
+        if (req.loginUser.role === 'Admin' || req.loginUser.role === 'Faculty') {
+            next();
+        }
+
+
+
     }
 }
