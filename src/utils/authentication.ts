@@ -11,11 +11,9 @@ export default async (req, res, next) => {
         //get id of user by token
         const { id } = jwt.verify(token, privateSecret);
 
-
-
-
         //get user by id
         const loginUser = await findFacultyById(id) === null ? await findFacultyById(id) : await findFacultyById(id);
+
 
         if (!loginUser) {
             res.status(400).send({ "success": false, "error": { "statusCode": 401, "message": "User not Found" } });

@@ -8,8 +8,9 @@ export default async (req, res, next) => {
         res.status(401).send({ "success": false, "error": { "statusCode": 401, "message": "Unauthorized" } })
     }
 
-    //only Admin can manage Department model
+    //manage access in Department Routes
     if (req.baseUrl === '/department') {
+        //only Admin can manage Department model
         if (loginUser.role === 'Admin' && loginUser.role !== 'Faculty' && loginUser.role !== 'Student') {
             next();
         }
@@ -18,7 +19,7 @@ export default async (req, res, next) => {
         }
     }
 
-    //manage access in User model
+    //manage access in User Routes
     else if (req.baseUrl === '/faculty') {
 
         //Admin can manage all user
@@ -30,6 +31,9 @@ export default async (req, res, next) => {
 
         //faculty can only change their data and view profile for theirself
         else if (loginUser.role === 'Faculty') {
+            if (req.params.id === undefined) {
+                req.params.id = req.loginUser._id;
+            }
             if ((req.method === 'PATCH' && req.params.id == req.loginUser._id && (req.body.role !== 'Admin')) || (req.method === 'GET' && req.path === '/me')) {
                 next();
             }
@@ -40,15 +44,19 @@ export default async (req, res, next) => {
 
     }
 
-    //manage access for the student model
+    //manage access for the student Routes
     else if (req.baseUrl === '/student') {
+
+        //Admin and Faculty can manage students
         if (req.loginUser.role === 'Admin' || req.loginUser.role === 'Faculty') {
-            req.accessRoles = ['Student'];
             next();
         }
 
         //Student can only change their data and view profile for theirself
         else if (loginUser.role === 'Student') {
+            if (req.params.id === undefined) {
+                req.params.id = req.loginUser._id;
+            }
             if ((req.method === 'PATCH' && req.params.id == req.loginUser._id && (req.body.role !== 'Admin' && req.body.role === 'Faculty')) || (req.method === 'GET' && req.path === '/me')) {
                 next();
             }

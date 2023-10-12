@@ -1,4 +1,5 @@
 
+import mongoose from 'mongoose';
 import Department from './department.model'
 
 
@@ -29,8 +30,8 @@ export async function findDepartments() {
  */
 export async function findDepartmentById(id) {
     try {
-        return await Department.findById(id);
+        return await Department.findById(new mongoose.Types.ObjectId(id));
     }
-    catch(error) {
+    catch (error) {
     }
 }

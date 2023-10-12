@@ -5,11 +5,11 @@ import {
     createStudent,
     findStudentByEmailId,
     findStudentyById,
-    findFaculties
+    findStudents
 } from './student.DAL'
 
 
-class facultyController {
+class studentController {
     async createStudent(req, res, next) {
         try {
             const studentObj = req.body;
@@ -70,7 +70,7 @@ class facultyController {
 
     async getStudents(req, res, next) {
         try {
-            const students = await findFaculties(req.accessRoles);
+            const students = await findStudents();
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": students, "message": "Success" } });
 
         }
@@ -79,39 +79,39 @@ class facultyController {
         }
     }
 
-    async updateFaculty(req, res, next) {
+    async updateStudent(req, res, next) {
         try {
             let id = req.params.id;
 
-            const faculty = await findStudentyById(id);
-            if (!faculty) {
-                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
+            const student = await findStudentyById(id);
+            if (!student) {
+                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "student not found" } });
             }
 
             for (const field in req.body) {
-                faculty[field] = req.body[field]
+                student[field] = req.body[field]
             }
-            await faculty.save();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message": "faculty Updated Sucessfully" } });
+            await student.save();
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": student, "message": "student Updated Sucessfully" } });
         }
         catch (error) {
-            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while updating faculty" } });
+            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while updating student" } });
         }
     }
 
-    async deleteFaculty(req, res, next) {
+    async deleteStudent(req, res, next) {
         try {
             const id = req.params.id;
-            const faculty = await findStudentyById(id);
-            if (!faculty) {
-                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
+            const student = await findStudentyById(id);
+            if (!student) {
+                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "student not found" } });
             }
-            await faculty.deleteOne();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message": "faculty Deleted Sucessfully" } });
+            await student.deleteOne();
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": student, "message": "student Deleted Sucessfully" } });
 
         }
         catch (error) {
-            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while deleting faculty" } });
+            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while deleting student" } });
         }
     }
 
@@ -128,4 +128,4 @@ class facultyController {
         }
     }
 }
-export default facultyController;
+export default studentController;

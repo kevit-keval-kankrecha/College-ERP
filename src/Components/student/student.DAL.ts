@@ -28,17 +28,9 @@ export async function findStudentByEmailId(emailId) {
     }
 }
 
-export async function findFaculties(accessRoles) {
+export async function findStudents() {
     try {
-        return await Student.aggregate([
-            {
-                '$match': {
-                    'role': {
-                        '$in': accessRoles
-                    }
-                }
-            }
-        ]).exec();
+        return await Student.find().lean();
     }
     catch (error) {
     }

@@ -14,23 +14,23 @@ class studentRoutes {
     }
 
     initalizeRoutes() {
-        //Create New User
+        //Create New Student
         this.router.post('/add',authentication,authorization, this.studentController.createStudent);
 
-        //Login User
+        //Login Student
         this.router.post('/login', this.studentController.loginStudent);
 
-        //LogOut Users
+        //LogOut Students
         this.router.post('/logout', authentication,authorization, this.studentController.logOutStudent);
 
-        //List User
-        this.router.get('/', authentication, this.studentController.getStudents);
+        //List Student
+        this.router.get('/', authentication,authorization, this.studentController.getStudents);
 
-        //Update User
-        this.router.patch('/update/:id?', authentication,authorization, this.studentController.updateFaculty);
+        //Update Student
+        this.router.patch('/update/:id?', authentication,authorization, this.studentController.updateStudent);
 
-        //Delete User
-        this.router.delete('/delete/:id?', authentication,authorization, this.studentController.deleteFaculty);
+        //Delete Student
+        this.router.delete('/delete/:id?', authentication,authorization, this.studentController.deleteStudent);
 
         //Get Profile
         this.router.get('/me', authentication,authorization, this.studentController.getProfile); 

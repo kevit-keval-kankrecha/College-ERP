@@ -39,6 +39,11 @@ const studentSchema = new Schema({
     batchYear: {
         type: Schema.Types.Date,
         required: true
+    },
+    onRoll: {
+        type: Schema.Types.Boolean,
+        require: true,
+        default: true
     }
 }, {
     timestamps: true
