@@ -3,8 +3,8 @@ import * as bcrypt from 'bcrypt';
 
 const { Schema, model } = mongoose;
 
-// User Schema For DataBase
-const userSchema = new Schema({
+// Faculty Schema For DataBase
+const staffSchema = new Schema({
     name: {
         type: Schema.Types.String,
         required: true
@@ -13,9 +13,9 @@ const userSchema = new Schema({
         type: Schema.Types.String,
         required: true
     },
-    password:{
-        type:Schema.Types.String,
-        require:true
+    password: {
+        type: Schema.Types.String,
+        require: true
     },
     address: {
         type: Schema.Types.String,
@@ -28,7 +28,8 @@ const userSchema = new Schema({
     },
     authToken: {
         type: Schema.Types.String,
-        required: true
+        required: true,
+        default: ' '
     },
     role: {
         type: Schema.Types.String,
@@ -39,18 +40,18 @@ const userSchema = new Schema({
 });
 
 //encrypt password
-userSchema.pre('save',async function (next){
-    try{
-        if(this.isModified('password')){
-            this.password=await bcrypt.hash(this.password,8);
+staffSchema.pre('save', async function (next) {
+    try {
+        if (this.isModified('password')) {
+            this.password = await bcrypt.hash(this.password, 8);
         }
         next();
     }
-    catch(error){
-        
+    catch (error) {
+
     }
 });
 
 
-const User = model('User', userSchema);
-export default User;
+const Staff = model('Staff', staffSchema);
+export default Staff;

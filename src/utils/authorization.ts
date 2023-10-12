@@ -1,17 +1,16 @@
-import { findUserById } from '../Components/User/user.DAL';
+import { findFacultyById } from '../Components/Faculty/faculty.DAL';
 
 export default async (req, res, next) => {
-
-    const user = await findUserById(req.user._id);
-    //if user not found
-    if (!user) {
+    console.log(req.user);
+    const faculty = await findFacultyById(req.user._id);
+    //if faculty not found
+    if (!faculty) {
         res.status(401).send({ "success": false, "error": { "statusCode": 401, "message": "Unauthorized" } })
     }
 
     //only Admin can manage Department model
     if (req.baseUrl === '/department') {
-        if (user.role === 'Admin') {
-            req.accessRoles = ['Faculty', 'Student']
+        if (faculty.role === 'Admin') {
             next();
         }
         else {
@@ -20,52 +19,28 @@ export default async (req, res, next) => {
     }
 
     //manage access in User model
-    if (req.baseUrl === '/user') {
+    if (req.baseUrl === '/faculty') {
 
         //Admin can manage all user
-        if (user.role === 'Admin') {
-            
+        if (faculty.role === 'Admin') {
             next();
+            //Faculty Access
+            req.accessRoles = ['Faculty'];
         }
 
         //faculty can only manage students
-        else if (user.role === 'Faculty') {
-            const accessRole: String[] = ['Student']
-            req.accessRole = accessRole
-
-            //when faculty try to update or delete it will check if student or not
-            if (req.params.id && req.params.id!==req.user._id) {
-                const user = await findUserById(req.params.id);
-                if (accessRole.includes(user.role)) {
-                    next();
-                }
-                else {
-                    res.status(403).send({ "success": false, "error": { "statusCode": 403, "message": "You Have Not Permission to access it" } })
-                }
-            }
-
-            //manage their self
-            else {
-                req.params.id = req.user._id;
+        else if (faculty.role === 'Faculty') {
+            //faculty can update and delete theirself
+            if (req.user._id === req.params.id) {
                 next();
             }
-        }
 
-        //student can manage it self only
-        if (user.role === 'Student') {
-            if (req.params.id === undefined) {
-                req.params.id = req.user._id;
-                next();
+            //faculty can not create new faculty
+            if (req.body.role === 'Admin' && req.body.role === 'Faculty') {
+                res.status(403).send({ "success": false, "error": { "statusCode": 403, "message": "You Have Not Permission to access it" } })
             }
-            else{
-                if(req.params.id===req.user._id){
-                    next();
-                }
-                else{
-                    res.status(403).send({ "success": false, "error": { "statusCode": 403, "message": "You Have Not Permission to access it" } })
-                }
-            }
-        }
 
+
+        }
     }
 }

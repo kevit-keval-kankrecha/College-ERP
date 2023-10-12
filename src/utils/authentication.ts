@@ -1,4 +1,4 @@
-import { findUserById } from '../Components/User/user.DAL';
+import { findFacultyById } from '../Components/Faculty/faculty.DAL';
 import * as jwt from 'jsonwebtoken';
 
 export default async (req, res, next) => {
@@ -9,21 +9,20 @@ export default async (req, res, next) => {
 
         const { id } = jwt.verify(token, privateSecret);
 
-        const user = await findUserById(id);
-
-        if(!user){
-            res.status(401).send({ error: "Unauthorized" });
+        const faculty = await findFacultyById(id);
+        if (!faculty) {
+            res.status(400).send({ "success": false, "error": { "statusCode": 401, "message": "faculty not Found" } });
         }
 
-        if (token === user.authToken) {
-            req.user = user;
+        if (token === faculty.authToken) {
+            req.faculty = faculty;
             next();
         }
         else {
-            res.status(401).send({ error: "Unauthorized" });
+            res.status(401).send({ "success": false, "error": { "statusCode": 401, "message": "Unauthorized Faculty" } });
         }
     }
-    catch {
-        res.status(401).send({ error: "Unauthorized" });
+    catch (error) {
+        res.status(401).send({ "success": false, "error": { "statusCode": 401, "message": "Unauthorized Faculty" } });
     }
 }
