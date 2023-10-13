@@ -71,23 +71,6 @@ studentSchema.pre('save', async function (next) {
         if (this.isModified('password')) {
             this.password = await bcrypt.hash(this.password, 8);
         }
-
-        //update departmentwise admission count
-        const department = await findDepartmentById(this.departmentId);
-
-        department.admission.map((admission) => {
-            if (admission.year === this.batchYear) {
-                //more than available seat
-                if (department.totalSeat === admission['admission']) {
-                    next(new Error("No Vacancy available"));
-                }
-                admission['admission'] = admission['admission'] + 1;
-            }
-        })
-        const updatedDepartment = new Department(department);
-        await updatedDepartment.save();
-
-        
         next();
     }
     catch (error) {

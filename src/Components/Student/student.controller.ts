@@ -8,10 +8,6 @@ import {
     findStudents
 } from './student.DAL'
 
-import {
-    findDepartmentById
-} from '../Department/department.DAL'
-import Department from '../Department/department.model';
 
 
 class studentController {
@@ -109,18 +105,7 @@ class studentController {
         try {
             const id = req.params.id;
             const student = await findStudentyById(id);
-
-            //update departmentwise admission count
-            const department = await findDepartmentById(student.departmentId);
-
-            department.admission.map((admission) => {
-                if (admission.year === student.batchYear) {
-                    admission['admission'] = admission['admission'] - 1;
-                }
-            })
-            const updatedDepartment = new Department(department);
-            await updatedDepartment.save();
-
+            
             if (!student) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "student not found" } });
             }
