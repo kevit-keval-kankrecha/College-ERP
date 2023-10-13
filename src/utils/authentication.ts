@@ -1,5 +1,5 @@
 import { findFacultyById } from '../Components/Faculty/faculty.DAL';
-import { findStudentyById } from '../Components/student/student.DAL';
+import { findStudentyById } from '../Components/Student/student.DAL';
 import * as jwt from 'jsonwebtoken';
 
 export default async (req, res, next) => {
@@ -12,7 +12,7 @@ export default async (req, res, next) => {
         const { id } = jwt.verify(token, privateSecret);
 
         //get user by id
-        const loginUser = await findFacultyById(id) === null ? await findFacultyById(id) : await findFacultyById(id);
+        const loginUser = await findFacultyById(id) === null ? await findStudentyById(id) : await findFacultyById(id);
 
 
         if (!loginUser) {

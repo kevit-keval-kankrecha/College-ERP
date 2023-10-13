@@ -10,7 +10,6 @@ export default async (req, res, next) => {
 
     //manage access in Department Routes
     if (req.baseUrl === '/department') {
-        console.log(req.baseUrl.role);
         //only Admin can manage Department model
         if (loginUser.role === 'Admin' && loginUser.role !== 'Faculty' && loginUser.role !== 'Student') {
             next();
@@ -67,5 +66,10 @@ export default async (req, res, next) => {
         }
 
 
+    }
+
+    //manage access for attendance
+    else if(req.baseUrl==='/attendance'){
+        next();
     }
 }

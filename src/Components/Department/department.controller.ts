@@ -36,7 +36,6 @@ class departmentController {
             if (!department) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Department not found" } });
             }
-
             for (const field in req.body) {
                 department[field] = req.body[field]
             }

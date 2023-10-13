@@ -1,7 +1,19 @@
 import mongoose from "mongoose";
 import * as bcrypt from 'bcrypt';
+import { findDepartmentById } from "Components/Department/department.DAL";
+import Department from "Components/Department/department.model";
 
 const { Schema, model } = mongoose;
+
+const attandanceSchema = new mongoose.Schema({
+    studentId: String,
+    present: Boolean,
+});
+
+const userSchema = new mongoose.Schema({
+    name: String,
+    age: Number,
+});
 
 // Faculty Schema For DataBase
 const studentSchema = new Schema({
@@ -42,9 +54,13 @@ const studentSchema = new Schema({
     },
     onRoll: {
         type: Schema.Types.Boolean,
-        require: true,
+        required: true,
         default: true
-    }
+    },
+    attendance: [{
+        type:mongoose.Schema.Types.Mixed,
+        default:[]
+    }]
 }, {
     timestamps: true
 });
@@ -55,12 +71,31 @@ studentSchema.pre('save', async function (next) {
         if (this.isModified('password')) {
             this.password = await bcrypt.hash(this.password, 8);
         }
+
+        //update departmentwise admission count
+        const department = await findDepartmentById(this.departmentId);
+
+        department.admission.map((admission) => {
+            if (admission.year === this.batchYear) {
+                //more than available seat
+                if (department.totalSeat === admission['admission']) {
+                    next(new Error("No Vacancy available"));
+                }
+                admission['admission'] = admission['admission'] + 1;
+            }
+        })
+        const updatedDepartment = new Department(department);
+        await updatedDepartment.save();
+
+        
         next();
     }
     catch (error) {
 
     }
 });
+
+
 
 
 const Student = model('Student', studentSchema);

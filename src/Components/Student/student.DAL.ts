@@ -10,6 +10,7 @@ import Student from './student.model'
 export async function createStudent(studentBody) {
     try {
         return await Student.create(studentBody);
+        
     }
     catch (error) {
 
