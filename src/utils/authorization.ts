@@ -67,9 +67,4 @@ export default async (req, res, next) => {
 
 
     }
-
-    //manage access for attendance
-    else if(req.baseUrl==='/attendance'){
-        next();
-    }
 }
