@@ -6,6 +6,8 @@ import * as bodyParser from 'body-parser';
 import Config from './config';
 import applicationRoutes from './application.routes';
 
+import { log } from './utils/winston-logger';
+
 const mongoUrl: string = Config.mongodb.url;
 const PORT: string | number = Config.server.port;
 
@@ -35,15 +37,15 @@ class app {
     mongoose.connect(mongoUrl, dbOptions);
 
     mongoose.connection.on('connected', () => {
-      console.log('Connect');
+      log.info("Connected");
     });
 
     mongoose.connection.on('error', (err) => {
-      console.log(`DATABASE - Error:${err}`);
+      log.info(`DATABASE - Error:${err}`);
     });
 
     mongoose.connection.on('disconnected', () => {
-      console.log('DATABASE - disconnected  Retrying....');
+      log.info('DATABASE - disconnected  Retrying....');
     });
   }
 }
