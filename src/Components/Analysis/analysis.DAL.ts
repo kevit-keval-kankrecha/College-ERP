@@ -54,6 +54,37 @@ export async function getBatchDepartmentWiseData() {
                             }
                         }
                     }
+                }, {
+                    '$addFields': {
+                        'year': '$_id'
+                    }
+                }, {
+                    '$project': {
+                        '_id': 0
+                    }
+                }, {
+                    '$project': {
+                        'data': {
+                            '$map': {
+                                'input': '$branches',
+                                'as': 'branch',
+                                'in': {
+                                    'k': '$$branch.dep',
+                                    'v': '$$branch.totalStudent'
+                                }
+                            }
+                        },
+                        'year': 1,
+                        'TotalStudents': 1
+                    }
+                }, {
+                    '$project': {
+                        'branches': {
+                            '$arrayToObject': '$data'
+                        },
+                        'year': 1,
+                        'TotalStudents': 1
+                    }
                 }
             ]).exec();
 
