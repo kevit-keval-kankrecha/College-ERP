@@ -25,22 +25,3 @@ export async function fillAttendance(attendanceBody) {
     }
 }
 
-export async function getBatchDepartmentWiseData() {
-    try {
-        const data = await Student.aggregate([
-            {
-                '$group': {
-                    '_id': '$batchYear',
-                    'totalStudents': {
-                        '$sum': 1
-                    }
-                }
-            }
-        ]).exec();
-
-        console.log(data);
-    }
-    catch (error) {
-
-    }
-}

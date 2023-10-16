@@ -2,8 +2,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
 import {
-    fillAttendance,
-    getBatchDepartmentWiseData
+    fillAttendance
 } from './attandance.DAL'
 
 
@@ -15,15 +14,6 @@ class studentController {
         }
         catch (error) {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while creating new Student" } });
-        }
-    }
-
-    async getBatchDepartmentWiseData(req, res, next) {
-        try {
-            getBatchDepartmentWiseData();
-        }
-        catch (error) {
-
         }
     }
 }
