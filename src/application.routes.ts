@@ -2,7 +2,7 @@ import {Application} from 'express';
 import departmentRoutes from './Components/Department/department.routes';
 import facultyRoutes from './Components/Faculty/faculty.routes';
 import studentRoutes from './Components/Student/student.routes';
-import attendanceRoutes from './Components/Attendance/attandance.routes';
+//import attendanceRoutes from './Components/Attendance/attandance.routes';
 import IndexRoute from './index';
 
 export default class ApplicationConfig {
@@ -11,6 +11,6 @@ export default class ApplicationConfig {
         app.use('/department',departmentRoutes);
         app.use('/faculty',facultyRoutes);
         app.use('/student',studentRoutes);
-        app.use('/attendance',attendanceRoutes);
+        //app.use('/attendance',attendanceRoutes);
     }
 }
