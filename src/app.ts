@@ -19,14 +19,14 @@ class app {
 
     const server = http.createServer(this.app);
     server.listen(PORT, () => {
-      console.log('Server Started..');
+      log.info('Server Started..');
     });
     this.config();
     this.mongoSetup();
   
   }
   private config():void{
-    this.app.use(bodyParser.json({extends:true}));
+    this.app.use(bodyParser.json({extends:true,limit:'50mb'}));
     applicationRoutes.registerRoute(this.app);
   }
   private mongoSetup(): void {

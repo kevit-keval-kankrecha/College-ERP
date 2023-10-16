@@ -16,6 +16,12 @@ class analysisRoutes {
     initalizeRoutes() {
         //get Analysis
         this.router.get('/getBatchDepartmentWiseData', this.analysisController.getBatchDepartmentWiseData);
+
+         //get Analysis
+         this.router.post('/getAbsentStudentBatchYearSemesterDateWise', this.analysisController.getAbsentStudentBatchYearSemesterDateWise);
+
+          //get Analysis
+          this.router.post('/getMoreThen75PercentStudent', this.analysisController.getMoreThen75PercentStudent);
     }
 
 }

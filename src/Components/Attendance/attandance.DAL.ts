@@ -14,7 +14,8 @@ import {
 export async function fillAttendance(attendanceBody) {
     try {
         attendanceBody.map(async (attandance) => {
-            const student = await findStudentyById(attandance.studentId);
+
+            const student = await findStudentyById(attandance._id);
             student.attendance.push({ date: attandance.date, present: attandance.present });
             await student.save();
         });

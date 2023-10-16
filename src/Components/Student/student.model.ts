@@ -58,8 +58,7 @@ const studentSchema = new Schema({
         default: true
     },
     attendance: [{
-        type:mongoose.Schema.Types.Mixed,
-        default:[]
+        type:mongoose.Schema.Types.Mixed
     }]
 }, {
     timestamps: true
