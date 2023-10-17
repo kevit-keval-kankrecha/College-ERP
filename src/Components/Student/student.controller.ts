@@ -15,6 +15,12 @@ import {
 
 
 class studentController {
+    /**
+	 * Create Student
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async createStudent(req, res, next) {
         try {
             const studentObj = req.body;
@@ -27,6 +33,12 @@ class studentController {
         }
     }
 
+    /**
+	 * Student Login
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async loginStudent(req, res, next) {
         try {
             const { emailId, password } = req.body;
@@ -58,6 +70,12 @@ class studentController {
         }
     }
 
+    /**
+	 * Student LogOut
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async logOutStudent(req, res, next) {
         try {
             const id = req.loginUser.id;
@@ -74,6 +92,12 @@ class studentController {
         }
     }
 
+    /**
+	 * List Students
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async getStudents(req, res, next) {
         try {
             const students = await findStudents();
@@ -85,6 +109,12 @@ class studentController {
         }
     }
 
+    /**
+	 * Update Student
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async updateStudent(req, res, next) {
         try {
             let id = req.params.id;
@@ -105,6 +135,12 @@ class studentController {
         }
     }
 
+    /**
+	 * Delete Student
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async deleteStudent(req, res, next) {
         try {
             const id = req.params.id;
@@ -122,6 +158,12 @@ class studentController {
         }
     }
 
+    /**
+	 * get Student Profile
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async getProfile(req, res, next) {
         try {
             const student = await findStudentyById(req.loginUser._id);
@@ -135,7 +177,12 @@ class studentController {
         }
     }
 
-    //Analysis
+    /**
+	 * Get Batch,Year,Department Wise Students Count
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async getBatchDepartmentWiseData(req, res, next) {
         try {
             const data = await getVacancySeat();
@@ -146,7 +193,12 @@ class studentController {
         }
     }
 
-
+    /**
+	 * Get Absent Student List
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async getAbsentStudentBatchYearSemesterDateWise(req, res, next) {
         try {
             const data = await getAbsentStudentBatchYearSemesterDateWise(req.body);
@@ -157,6 +209,12 @@ class studentController {
         }
     }
 
+    /**
+	 * Get Students whose Attendance is more then 75%
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async getMoreThen75PercentStudent(req, res, next) {
         try {
             const data = await getMoreThen75PercentStudent(req.body);
@@ -167,6 +225,12 @@ class studentController {
         }
     }
 
+    /**
+	 * Get Department and Year wise vacancy
+	 * @param req => Express Request
+	 * @param res => Express Response
+	 * @param next => Express next function
+	 */
     async getVacancySeat(req, res, next) {
         try {
             const data = await getVacancySeat();

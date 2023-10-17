@@ -5,7 +5,8 @@ import Student from './student.model'
 
 /**
  * 
- * @param studentBody => Department Object to be created.
+ * @param studentBody => Student Object to be created.
+ * @returns => Create Student
  */
 export async function createStudent(studentBody) {
     try {
@@ -19,7 +20,9 @@ export async function createStudent(studentBody) {
 
 /**
  * 
- * @param studentBody => Department Object to be created.
+ * @param emailId => Student Email
+ * * @returns => Student By Given Email
+ * 
  */
 export async function findStudentByEmailId(emailId) {
     try {
@@ -29,6 +32,10 @@ export async function findStudentByEmailId(emailId) {
     }
 }
 
+/**
+ * 
+ * @returns => List of Students
+ */
 export async function findStudents() {
     try {
         return await Student.find().lean();
@@ -39,8 +46,8 @@ export async function findStudents() {
 
 /**
  * 
- * @param id UserID
- * @returns User
+ * @param id => User Id
+ * @returns => User by Given Id
  */
 export async function findStudentyById(id) {
     try {
@@ -50,7 +57,10 @@ export async function findStudentyById(id) {
     }
 }
 
-
+/**
+ * 
+ * @returns Count Department,Year,Semester wise Students
+ */
 export async function getBatchDepartmentWiseData() {
     try {
         const data = await Student.aggregate(
@@ -147,6 +157,11 @@ export async function getBatchDepartmentWiseData() {
     }
 }
 
+/**
+ * 
+ * @param requestBody => year,branch,semester,date within a Object
+ * @returns => Absent Student List
+ */
 export async function getAbsentStudentBatchYearSemesterDateWise(requestBody) {
     let pipeline = []
     pipeline = [
@@ -238,6 +253,12 @@ export async function getAbsentStudentBatchYearSemesterDateWise(requestBody) {
     return data;
 }
 
+
+/**
+ * 
+ * @param requestBody year,branch,semester within a Object
+ * @returns => Students whose attendance is more then 75%
+ */
 export async function getMoreThen75PercentStudent(requestBody) {
     try {
         let pipeline = [];
@@ -344,6 +365,10 @@ export async function getMoreThen75PercentStudent(requestBody) {
     }
 }
 
+/**
+ * 
+ * @returns => Department,Year wise Vacancy of seat
+ */
 export async function getVacancySeat(){
     try{
         const data = await Student.aggregate([
