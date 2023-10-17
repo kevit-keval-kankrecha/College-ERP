@@ -7,6 +7,7 @@ import Config from './config';
 import applicationRoutes from './application.routes';
 
 import { log } from './utils/winston-logger';
+import ApplicationConfig from './application.routes';
 
 const mongoUrl: string = Config.mongodb.url;
 const PORT: string | number = Config.server.port;
@@ -23,6 +24,8 @@ class app {
     });
     this.config();
     this.mongoSetup();
+    
+    
   
   }
   private config():void{

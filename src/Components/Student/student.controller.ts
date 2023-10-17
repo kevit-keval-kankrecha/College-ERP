@@ -8,7 +8,8 @@ import {
     findStudents,
     getAbsentStudentBatchYearSemesterDateWise,
     getBatchDepartmentWiseData,
-    getMoreThen75PercentStudent
+    getMoreThen75PercentStudent,
+    getVacancySeat
 } from './student.DAL'
 
 
@@ -137,7 +138,7 @@ class studentController {
     //Analysis
     async getBatchDepartmentWiseData(req, res, next) {
         try {
-            const data = await getBatchDepartmentWiseData();
+            const data = await getVacancySeat();
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
         }
         catch (error) {
@@ -159,6 +160,16 @@ class studentController {
     async getMoreThen75PercentStudent(req, res, next) {
         try {
             const data = await getMoreThen75PercentStudent(req.body);
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
+        }
+        catch {
+            res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
+        }
+    }
+
+    async getVacancySeat(req, res, next) {
+        try {
+            const data = await getVacancySeat();
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
         }
         catch {

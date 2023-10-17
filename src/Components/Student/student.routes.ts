@@ -45,6 +45,9 @@ class studentRoutes {
 
         //get present Students
         this.router.post('/getMoreThen75PercentAttendanceStudent', this.studentController.getMoreThen75PercentStudent);
+
+        //get present Students
+        this.router.get('/getVacancySeat', this.studentController.getVacancySeat);
     }
 
 }
