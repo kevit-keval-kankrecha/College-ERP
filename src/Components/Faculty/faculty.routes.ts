@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import facultyController from './faculty.controller';
 import authentication from '../../utils/authentication';
 import authorization from '../../utils/authorization';
@@ -10,10 +11,10 @@ class facultyRoutes {
 
     constructor() {
         this.router = Router();
-        this.initalizeRoutes();
+        this.initializeRoutes();
     }
 
-    initalizeRoutes() {
+    initializeRoutes() {
         //Create New User
         this.router.post('/add',authentication,authorization, this.facultyController.createFaculty);
 
@@ -35,7 +36,6 @@ class facultyRoutes {
         //Get Profile
         this.router.get('/me', authentication,authorization, this.facultyController.getProfile); 
     }
-
 }
 
 export default new facultyRoutes().router

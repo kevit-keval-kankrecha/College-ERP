@@ -15,11 +15,7 @@ const departmentSchema = new Schema({
     initial: {
         type: Schema.Types.String,
         required: true
-    },
-    admission: [{
-        type:mongoose.Schema.Types.Mixed,
-        default:[]
-    }]
+    }
 }, {
     timestamps: true
 });

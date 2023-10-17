@@ -1,34 +1,39 @@
+import { ObjectId } from 'mongoose';
 
-import mongoose from 'mongoose';
 import Faculty from './faculty.model'
 
 
 /**
- * 
- * @param facultyBody => Department Object to be created.
+ * Create New Faculty in DB
+ * @param FacultyBody => Faculty Object to be created.
+ * @returns => New Created Faculty
  */
 export async function createFaculty(facultyBody) {
     try {
         return await Faculty.create(facultyBody);
     }
     catch (error) {
-
+        throw new Error(error);
     }
 }
 
 /**
- * 
- * @param facultyBody => Department Object to be created.
+ * Find Faculty From DB
+ * @param emailId => Faculty Email Id
  */
 export async function findFacultyByEmailId(emailId) {
-
     try {
         return await Faculty.findOne({ emailId });
     }
-    catch (error) {
+    catch(error) {
+        throw new Error(error);
     }
 }
 
+/**
+ * Find All Faculties From DB
+ * @returns => List Faculties
+ */
 export async function findFaculties(accessRoles) {
     try {
         return await Faculty.aggregate([
@@ -42,17 +47,18 @@ export async function findFaculties(accessRoles) {
         ]).exec();
     }
     catch (error) {
+        throw new Error(error);
     }
 }
 
 /**
- * 
- * @param id UserID
- * @returns User
+ * Finds Faculty from DB
+ * @param id => FacultyID
+ * @returns => Faculty
  */
-export async function findFacultyById(id) {
+export async function findFacultyById(id:ObjectId) {
     try {
-        return await Faculty.findById(new mongoose.Types.ObjectId(id));
+        return await Faculty.findById(id);
     }
     catch (error) {
     }
