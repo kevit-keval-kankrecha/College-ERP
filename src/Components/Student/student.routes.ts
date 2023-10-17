@@ -15,25 +15,36 @@ class studentRoutes {
 
     initalizeRoutes() {
         //Create New Student
-        this.router.post('/add',authentication,authorization, this.studentController.createStudent);
+        this.router.post('/add', authentication, authorization, this.studentController.createStudent);
 
         //Login Student
         this.router.post('/login', this.studentController.loginStudent);
 
         //LogOut Students
-        this.router.post('/logout', authentication,authorization, this.studentController.logOutStudent);
+        this.router.post('/logout', authentication, authorization, this.studentController.logOutStudent);
 
         //List Student
-        this.router.get('/', authentication,authorization, this.studentController.getStudents);
+        this.router.get('/', authentication, authorization, this.studentController.getStudents);
 
         //Update Student
-        this.router.patch('/update/:id?', authentication,authorization, this.studentController.updateStudent);
+        this.router.patch('/update/:id?', authentication, authorization, this.studentController.updateStudent);
 
         //Delete Student
-        this.router.delete('/delete/:id?', authentication,authorization, this.studentController.deleteStudent);
+        this.router.delete('/delete/:id?', authentication, authorization, this.studentController.deleteStudent);
 
         //Get Profile
-        this.router.get('/me', authentication,authorization, this.studentController.getProfile); 
+        this.router.get('/me', authentication, authorization, this.studentController.getProfile);
+
+        //Student Analysis Routes
+
+        //get Batch and year wise Analysis
+        this.router.get('/getBatchDepartmentWiseStudents', this.studentController.getBatchDepartmentWiseData);
+
+        //get Absent Student
+        this.router.post('/getAbsentStudents', this.studentController.getAbsentStudentBatchYearSemesterDateWise);
+
+        //get present Students
+        this.router.post('/getMoreThen75PercentAttendanceStudent', this.studentController.getMoreThen75PercentStudent);
     }
 
 }

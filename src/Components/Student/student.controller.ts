@@ -5,7 +5,10 @@ import {
     createStudent,
     findStudentByEmailId,
     findStudentyById,
-    findStudents
+    findStudents,
+    getAbsentStudentBatchYearSemesterDateWise,
+    getBatchDepartmentWiseData,
+    getMoreThen75PercentStudent
 } from './student.DAL'
 
 
@@ -105,7 +108,7 @@ class studentController {
         try {
             const id = req.params.id;
             const student = await findStudentyById(id);
-            
+
             if (!student) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "student not found" } });
             }
@@ -128,6 +131,38 @@ class studentController {
         }
         catch {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while Loading your profile" } });
+        }
+    }
+
+    //Analysis
+    async getBatchDepartmentWiseData(req, res, next) {
+        try {
+            const data = await getBatchDepartmentWiseData();
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
+        }
+        catch (error) {
+            res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
+        }
+    }
+
+
+    async getAbsentStudentBatchYearSemesterDateWise(req, res, next) {
+        try {
+            const data = await getAbsentStudentBatchYearSemesterDateWise(req.body);
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
+        }
+        catch {
+            res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
+        }
+    }
+
+    async getMoreThen75PercentStudent(req, res, next) {
+        try {
+            const data = await getMoreThen75PercentStudent(req.body);
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
+        }
+        catch {
+            res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
         }
     }
 }

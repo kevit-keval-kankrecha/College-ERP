@@ -3,7 +3,6 @@ import departmentRoutes from './Components/Department/department.routes';
 import facultyRoutes from './Components/Faculty/faculty.routes';
 import studentRoutes from './Components/Student/student.routes';
 import attendanceRoutes from './Components/Attendance/attandance.routes';
-import analysisRoutes from './Components/Analysis/analysis.routes'
 import IndexRoute from './index';
 
 export default class ApplicationConfig {
@@ -13,6 +12,5 @@ export default class ApplicationConfig {
         app.use('/faculty',facultyRoutes);
         app.use('/student',studentRoutes);
         app.use('/attendance',attendanceRoutes);
-        app.use('/analysis',analysisRoutes);
     }
 }
