@@ -15,10 +15,10 @@ import {
 
 class studentController {
     /**
-	 * Create Student
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
+     * Create Student
+     * @param req => Express Request
+     * @param res => Express Response
+     */
     async createStudent(req, res) {
         try {
             const studentObj = req.body;
@@ -32,10 +32,10 @@ class studentController {
     }
 
     /**
-	 * Student Login
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
+     * Student Login
+     * @param req => Express Request
+     * @param res => Express Response
+     */
     async loginStudent(req, res) {
         try {
             const { emailId, password } = req.body;
@@ -68,10 +68,10 @@ class studentController {
     }
 
     /**
-	 * Student LogOut
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
+     * Student LogOut
+     * @param req => Express Request
+     * @param res => Express Response
+     */
     async logOutStudent(req, res) {
         try {
             const id = req.loginUser.id;
@@ -89,10 +89,10 @@ class studentController {
     }
 
     /**
-	 * List Students
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
+     * List Students
+     * @param req => Express Request
+     * @param res => Express Response
+     */
     async getStudents(req, res) {
         try {
             const students = await findStudents();
@@ -105,10 +105,10 @@ class studentController {
     }
 
     /**
-	 * Update Student By StudentId
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
+     * Update Student By StudentId
+     * @param req => Express Request
+     * @param res => Express Response
+     */
     async updateStudent(req, res) {
         try {
             const id = req.params.id;
@@ -130,10 +130,10 @@ class studentController {
     }
 
     /**
-	 * Delete Student By StudentId
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
+     * Delete Student By StudentId
+     * @param req => Express Request
+     * @param res => Express Response
+     */
     async deleteStudent(req, res) {
         try {
             const id = req.params.id;
@@ -152,10 +152,10 @@ class studentController {
     }
 
     /**
-	 * Student Profile
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
+     * Student Profile
+     * @param req => Express Request
+     * @param res => Express Response
+     */
     async getProfile(req, res) {
         try {
             const student = await findStudentById(req.loginUser._id);
@@ -169,64 +169,5 @@ class studentController {
         }
     }
 
-    /**
-	 * Get Batch,Year,Department Wise Students Count
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
-    async getBatchDepartmentWiseData(req, res) {
-        try {
-            const data = await getVacancySeat();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
-        }
-        catch (error) {
-            res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
-        }
-    }
-
-    /**
-	 * Get Absent Student List
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
-    async getAbsentStudentBatchYearSemesterDateWise(req, res) {
-        try {
-            const data = await getAbsentStudentBatchYearSemesterDateWise(req.body);
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
-        }
-        catch {
-            res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
-        }
-    }
-
-    /**
-	 * Get Students whose Attendance is more then 75%
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
-    async getMoreThen75PercentStudent(req, res) {
-        try {
-            const data = await getMoreThen75PercentStudent(req.body);
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
-        }
-        catch {
-            res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
-        }
-    }
-
-    /**
-	 * Get Department and Year wise vacancy
-	 * @param req => Express Request
-	 * @param res => Express Response
-	 */
-    async getVacancySeat(req, res) {
-        try {
-            const data = await getVacancySeat();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
-        }
-        catch {
-            res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
-        }
-    }
 }
 export default studentController;
