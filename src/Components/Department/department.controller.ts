@@ -1,3 +1,4 @@
+import mongoose, { ObjectId } from 'mongoose';
 
 import {
     createDepartment,
@@ -6,9 +7,16 @@ import {
 }
     from
     './department.DAL';
+import Department from './department.model';
+
 
 class departmentController {
-    async createDepartment(req, res, next) {
+    /**
+     * Creates A New Department
+     * @param {Request} req => Express Request
+     * @param {Response} res => Express Response
+     */
+    async createDepartment(req, res) {
         try {
             const departmentObj = req.body;
             const department = await createDepartment(departmentObj);
@@ -19,20 +27,30 @@ class departmentController {
         }
     }
 
-    async getDepartments(req, res, next) {
+    /**
+    * List Departments
+    * @param {Request} req => Express Request
+    * @param {Response} res => Express Response
+    */
+    async getDepartments(req, res) {
         try {
             const departments = await findDepartments();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": departments, "message":"Success" } });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": departments, "message": "Success" } });
         }
         catch (error) {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while Loading Departments" } });
         }
     }
 
-    async updateDepartment(req, res, next) {
+    /**
+     * Updates Department By DepartmentId
+     * @param {Request} req => Express Request
+     * @param {Response} res => Express Response
+     */
+    async updateDepartment(req, res) {
         try {
             const id = req.params.id;
-            const department = await findDepartmentById(id);
+            const department = new Department(await findDepartmentById(id) );    
             if (!department) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Department not found" } });
             }
@@ -40,7 +58,7 @@ class departmentController {
                 department[field] = req.body[field]
             }
             await department.save();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": department, "message":"Department Updated Sucessfully" } });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": department, "message": "Department Updated Successfully" } });
 
         }
         catch (error) {
@@ -48,15 +66,20 @@ class departmentController {
         }
     }
 
-    async deleteDepartment(req, res, next) {
+    /**
+     * Delete Department By DepartmentId
+     * @param {Request} req => Express Request
+     * @param {Response} res => Express Response
+     */
+    async deleteDepartment(req, res) {
         try {
             const id = req.params.id;
-            const department = await findDepartmentById(id);
+            const department = new Department(await findDepartmentById(id) ); 
             if (!department) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Department not found" } });
             }
             await department.deleteOne();
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": department, "message":"Department Deleted Sucessfully" } });
+            res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": department, "message": "Department Deleted Sucessfully" } });
 
         }
         catch (error) {

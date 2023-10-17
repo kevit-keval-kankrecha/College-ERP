@@ -7,10 +7,16 @@ import {
     findFacultyById,
     findFaculties
 } from './faculty.DAL'
+import Faculty from './faculty.model';
 
 
 class facultyController {
-    async createFaculty(req, res, next) {
+    /**
+    * Creates A New Faculty
+    * @param {Request} req => Express Request
+    * @param {Response} res => Express Response
+    */
+    async createFaculty(req, res) {
         try {
             const facultyObj = req.body;
             const faculty = await createFaculty(facultyObj);
@@ -21,15 +27,19 @@ class facultyController {
         }
     }
 
-    async loginFaculty(req, res, next) {
+    /**
+    * Faculty Login
+    * @param {Request} req => Express Request
+    * @param {Response} res => Express Response
+    */
+    async loginFaculty(req, res) {
         try {
             const { emailId, password } = req.body;
             if (!emailId || !password) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Please Provide an emailId and password" } });
             }
 
-
-            const faculty = await findFacultyByEmailId(emailId);
+            const faculty = new Faculty(await findFacultyByEmailId(emailId));
 
             if (faculty) {
                 const match = await bcrypt.compare(password, faculty.password);
@@ -55,7 +65,12 @@ class facultyController {
         }
     }
 
-    async logOutFaculty(req, res, next) {
+    /**
+    * Faculty LogOut
+    * @param {Request} req => Express Request
+    * @param {Response} res => Express Response
+    */
+    async logOutFaculty(req, res) {
         try {
             const id = req.loginUser.id;
             const faculty = await findFacultyById(id);
@@ -71,7 +86,12 @@ class facultyController {
         }
     }
 
-    async getFaculties(req, res, next) {
+    /**
+    * List Faculties
+    * @param {Request} req => Express Request
+    * @param {Response} res => Express Response
+    */
+    async getFaculties(req, res) {
         try {
             const faculties = await findFaculties(req.accessRoles);
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculties, "message": "Success" } });
@@ -82,7 +102,12 @@ class facultyController {
         }
     }
 
-    async updateFaculty(req, res, next) {
+    /**
+     * Updates Faculty By FacultyId
+     * @param {Request} req => Express Request
+     * @param {Response} res => Express Response
+     */
+    async updateFaculty(req, res) {
         try {
             let id = req.params.id;
 
@@ -102,7 +127,12 @@ class facultyController {
         }
     }
 
-    async deleteFaculty(req, res, next) {
+    /**
+     * Deletes Faculty By FacultyId
+     * @param {Request} req => Express Request
+     * @param {Response} res => Express Response
+     */
+    async deleteFaculty(req, res) {
         try {
             const id = req.params.id;
             const faculty = await findFacultyById(id);
@@ -118,7 +148,12 @@ class facultyController {
         }
     }
 
-    async getProfile(req, res, next) {
+    /**
+     * Faculty Profile
+     * @param {Request} req => Express Request
+     * @param {Response} res => Express Response
+     */
+    async getProfile(req, res) {
         try {
             const faculty = await findFacultyById(req.loginUser._id);
             if (!faculty) {

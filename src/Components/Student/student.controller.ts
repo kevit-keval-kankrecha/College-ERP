@@ -4,10 +4,9 @@ import * as jwt from 'jsonwebtoken';
 import {
     createStudent,
     findStudentByEmailId,
-    findStudentyById,
+    findStudentById,
     findStudents,
     getAbsentStudentBatchYearSemesterDateWise,
-    getBatchDepartmentWiseData,
     getMoreThen75PercentStudent,
     getVacancySeat
 } from './student.DAL'
@@ -19,9 +18,8 @@ class studentController {
 	 * Create Student
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async createStudent(req, res, next) {
+    async createStudent(req, res) {
         try {
             const studentObj = req.body;
             const student = await createStudent(studentObj);
@@ -37,9 +35,8 @@ class studentController {
 	 * Student Login
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async loginStudent(req, res, next) {
+    async loginStudent(req, res) {
         try {
             const { emailId, password } = req.body;
             if (!emailId || !password) {
@@ -74,12 +71,11 @@ class studentController {
 	 * Student LogOut
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async logOutStudent(req, res, next) {
+    async logOutStudent(req, res) {
         try {
             const id = req.loginUser.id;
-            const student = await findStudentyById(id);
+            const student = await findStudentById(id);
             if (!student) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "student not found" } });
             }
@@ -96,9 +92,8 @@ class studentController {
 	 * List Students
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async getStudents(req, res, next) {
+    async getStudents(req, res) {
         try {
             const students = await findStudents();
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": students, "message": "Success" } });
@@ -110,16 +105,15 @@ class studentController {
     }
 
     /**
-	 * Update Student
+	 * Update Student By StudentId
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async updateStudent(req, res, next) {
+    async updateStudent(req, res) {
         try {
-            let id = req.params.id;
+            const id = req.params.id;
 
-            const student = await findStudentyById(id);
+            const student = await findStudentById(id);
             if (!student) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "student not found" } });
             }
@@ -136,15 +130,14 @@ class studentController {
     }
 
     /**
-	 * Delete Student
+	 * Delete Student By StudentId
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async deleteStudent(req, res, next) {
+    async deleteStudent(req, res) {
         try {
             const id = req.params.id;
-            const student = await findStudentyById(id);
+            const student = await findStudentById(id);
 
             if (!student) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "student not found" } });
@@ -159,14 +152,13 @@ class studentController {
     }
 
     /**
-	 * get Student Profile
+	 * Student Profile
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async getProfile(req, res, next) {
+    async getProfile(req, res) {
         try {
-            const student = await findStudentyById(req.loginUser._id);
+            const student = await findStudentById(req.loginUser._id);
             if (!student) {
                 res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "Student  not found" } });
             }
@@ -181,9 +173,8 @@ class studentController {
 	 * Get Batch,Year,Department Wise Students Count
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async getBatchDepartmentWiseData(req, res, next) {
+    async getBatchDepartmentWiseData(req, res) {
         try {
             const data = await getVacancySeat();
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
@@ -197,9 +188,8 @@ class studentController {
 	 * Get Absent Student List
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async getAbsentStudentBatchYearSemesterDateWise(req, res, next) {
+    async getAbsentStudentBatchYearSemesterDateWise(req, res) {
         try {
             const data = await getAbsentStudentBatchYearSemesterDateWise(req.body);
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
@@ -213,9 +203,8 @@ class studentController {
 	 * Get Students whose Attendance is more then 75%
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async getMoreThen75PercentStudent(req, res, next) {
+    async getMoreThen75PercentStudent(req, res) {
         try {
             const data = await getMoreThen75PercentStudent(req.body);
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });
@@ -229,9 +218,8 @@ class studentController {
 	 * Get Department and Year wise vacancy
 	 * @param req => Express Request
 	 * @param res => Express Response
-	 * @param next => Express next function
 	 */
-    async getVacancySeat(req, res, next) {
+    async getVacancySeat(req, res) {
         try {
             const data = await getVacancySeat();
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": data, "message": "Success" } });

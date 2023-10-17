@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import studentController from './student.controller';
 import authentication from '../../utils/authentication';
 import authorization from '../../utils/authorization';
@@ -10,10 +11,10 @@ class studentRoutes {
 
     constructor() {
         this.router = Router();
-        this.initalizeRoutes();
+        this.initializeRoutes();
     }
 
-    initalizeRoutes() {
+    initializeRoutes() {
         //Create New Student
         this.router.post('/add', authentication, authorization, this.studentController.createStudent);
 

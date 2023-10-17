@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 import * as bcrypt from 'bcrypt';
-import { findDepartmentById } from "Components/Department/department.DAL";
-import Department from "Components/Department/department.model";
 
 const { Schema, model } = mongoose;
 
@@ -27,7 +25,7 @@ const studentSchema = new Schema({
     },
     password: {
         type: Schema.Types.String,
-        require: true
+        required: true
     },
     address: {
         type: Schema.Types.String,
@@ -45,7 +43,7 @@ const studentSchema = new Schema({
     },
     semester: {
         type: Schema.Types.Number,
-        requied: true,
+        required: true,
         default: 1
     },
     batchYear: {
