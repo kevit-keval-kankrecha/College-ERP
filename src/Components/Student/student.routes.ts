@@ -35,20 +35,6 @@ class studentRoutes {
 
         //Get Profile
         this.router.get('/me', authentication, authorization, this.studentController.getProfile);
-
-        //Student Analysis Routes
-
-        //get Batch and year wise Analysis
-        this.router.get('/getBatchDepartmentWiseStudents', this.studentController.getBatchDepartmentWiseData);
-
-        //get Absent Student
-        this.router.post('/getAbsentStudents', this.studentController.getAbsentStudentBatchYearSemesterDateWise);
-
-        //get present Students
-        this.router.post('/getMoreThen75PercentAttendanceStudent', this.studentController.getMoreThen75PercentStudent);
-
-        //get present Students
-        this.router.get('/getVacancySeat', this.studentController.getVacancySeat);
     }
 
 }

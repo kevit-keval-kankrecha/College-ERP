@@ -1,9 +1,9 @@
 const Config = {
   mongodb: {
-    url: process.env.MONGODB_URL || 'mongodb://localhost:27017/college',
+    url: process.env.MONGODB_URL,
   },
   server: {
-    port: process.env.PORT || 3000,
+    port: process.env.PORT,
   },
 };
 export default Config;
