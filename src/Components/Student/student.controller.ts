@@ -6,9 +6,6 @@ import {
     findStudentByEmailId,
     findStudentById,
     findStudents,
-    getAbsentStudentBatchYearSemesterDateWise,
-    getMoreThen75PercentStudent,
-    getVacancySeat
 } from './student.DAL'
 
 
