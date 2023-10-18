@@ -1,5 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
+import {join} from 'path';
 
 import {
     createFaculty,
@@ -45,9 +47,11 @@ class facultyController {
                 const match = await bcrypt.compare(password, faculty.password);
 
                 if (match) {
-                    const privateSecret = "12abnjbnjh3gdhr45678451@@##!@#!";
+                    const privateKey = fs.readFileSync(
+                        join(__dirname,'../../keys/Private.key'),
+                    );
 
-                    const token = jwt.sign({ id: faculty._id, emailId: faculty.emailId, departmentId: faculty.departmentId }, privateSecret);
+                    const token = jwt.sign({ id: faculty._id, emailId: faculty.emailId, departmentId: faculty.departmentId }, privateKey);
                     faculty.authToken = token;
                     await faculty.save();
                     res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty.authToken, "message": "Authentication Token Generated" } });

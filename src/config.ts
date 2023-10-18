@@ -1,3 +1,7 @@
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 const Config = {
   mongodb: {
     url: process.env.MONGODB_URL,

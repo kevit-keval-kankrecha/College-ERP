@@ -1,3 +1,6 @@
+import * as fs from 'fs';
+import { join } from 'path';
+
 import { findFacultyById } from '../Components/Faculty/faculty.DAL';
 import { findStudentById } from '../Components/Student/student.DAL';
 import * as jwt from 'jsonwebtoken';
@@ -6,10 +9,13 @@ export default async (req, res, next) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '');
 
-        const privateSecret = "12abnjbnjh3gdhr45678451@@##!@#!";
+
+        const privateKey = fs.readFileSync(
+            join(__dirname,'../../keys/Private.key'),
+        );
 
         //get id of user by token
-        const { id } = jwt.verify(token, privateSecret);
+        const { id } = jwt.verify(token, privateKey);
 
         //get user by id
         const loginUser = await findFacultyById(id) === null ? await findStudentById(id) : await findFacultyById(id);
