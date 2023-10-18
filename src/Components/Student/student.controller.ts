@@ -125,7 +125,6 @@ class studentController {
             for (const field in req.body) {
                 student[field] = req.body[field]
             }
-            console.log(student)
 
             await student.save();
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": student, "message": "student Updated Sucessfully" } });

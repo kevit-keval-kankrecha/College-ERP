@@ -11,6 +11,7 @@ import {
     findFaculties
 } from './faculty.DAL'
 import Faculty from './faculty.model';
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -23,7 +24,9 @@ class facultyController {
     async createFaculty(req, res) {
         try {
             const facultyObj = req.body;
+
             const faculty = await createFaculty(facultyObj);
+
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message": "New Faculty Created Successfully" } });
         }
         catch (error) {
@@ -48,7 +51,6 @@ class facultyController {
 
             if (faculty) {
                 const match = await bcrypt.compare(password, faculty.password);
-                console.log(match);
 
                 if (match) {
                     const privateKey = process.env.PRIVATE_KEY
@@ -116,19 +118,20 @@ class facultyController {
     async updateFaculty(req, res) {
         try {
             let id = req.params.id;
-
             const faculty = await findFacultyById(id);
             if (!faculty) {
-                res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
+                return res.status(404).send({ "success": false, "error": { "statusCode": 404, "message": "faculty not found" } });
             }
-
-            for (const field in req.body) {
+            
+            for (const field in req.body) {                
                 faculty[field] = req.body[field]
             }
+
             await faculty.save();
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": faculty, "message": "faculty Updated Sucessfully" } });
         }
         catch (error) {
+            console.log("error",error)
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while updating faculty" } });
         }
     }

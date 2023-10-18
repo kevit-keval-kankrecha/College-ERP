@@ -34,7 +34,6 @@ class app {
     applicationRoutes.registerRoute(this.app);
   }
   private mongoSetup(): void {
-    console.log(mongoUrl);
     const dbOptions = {
       maxPoolSize: 5,
       useNewUrlParser: true,

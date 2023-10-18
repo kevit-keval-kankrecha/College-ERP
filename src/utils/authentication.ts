@@ -19,18 +19,17 @@ export default async (req, res, next) => {
         //get id of user by token
         const { id } = jwt.verify(token, privateKey);
 
+
         //get user by id
         const loginUser = await findFacultyById(id) === null ? await findStudentById(id) : await findFacultyById(id);
 
-
         if (!loginUser) {
-            res.status(400).send({ "success": false, "error": { "statusCode": 401, "message": "User not Found" } });
+            return res.status(401).send({ "success": false, "error": { "statusCode": 401, "message": "User not Found" } });
         }
 
         //checking for valid token
         if (token === loginUser.authToken) {
             req.loginUser = loginUser
-
             next();
         }
         else {
@@ -38,7 +37,6 @@ export default async (req, res, next) => {
         }
     }
     catch (error) {
-        console.log(error);
-        res.status(500).send({ "success": false, "error": { "statusCode": 401, "message": `${error}` } });
+        res.status(401).send({ "success": false, "error": { "statusCode": 401, "message": "Unauthorized Faculty" } });
     }
 }

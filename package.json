@@ -12,7 +12,7 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "precommit": "npm run lint-fix && npm run format",
     "prepare": "husky install",
-    "test": "jest --coverage"
+    "test": "jest  --coverage --watchAll --runInBand"
   },
   "author": "",
   "license": "ISC",
@@ -22,7 +22,10 @@
     "@typescript-eslint/parser": "^6.7.4",
     "eslint": "^8.51.0",
     "husky": "^8.0.0",
+    "jest": "^29.7.0",
     "prettier": "^3.0.3",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.2.2"
   },
   "dependencies": {

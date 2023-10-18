@@ -56,10 +56,12 @@ export async function findFaculties(accessRoles) {
  * @param id => FacultyID
  * @returns => Faculty
  */
-export async function findFacultyById(id:ObjectId) {
+export async function findFacultyById(id) {
     try {
         return await Faculty.findById(id);
+      
     }
     catch (error) {
+        throw new Error(error);
     }
 }
