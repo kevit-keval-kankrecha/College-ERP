@@ -16,16 +16,18 @@ const PORT: string | number = Config.server.port;
 
 class app {
   public app: express.Application;
-
+  public ExpressServer :any;
   constructor() {
     this.app = express();
 
     const server = http.createServer(this.app);
-    server.listen(PORT, () => {
+    this.ExpressServer= server.listen(PORT, () => {
       log.info('Server Started..');
     });
     this.config();
     this.mongoSetup();
+
+    
   }
   private config():void{
     this.app.use(bodyParser.json({extends:true,limit:'50mb'}));
@@ -52,4 +54,5 @@ class app {
     });
   }
 }
-new app();
+export default new app().ExpressServer
+//new app();

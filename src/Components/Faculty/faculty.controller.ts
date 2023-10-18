@@ -2,6 +2,7 @@ import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 import * as fs from 'fs';
 import {join} from 'path';
+import * as dotenv from 'dotenv';
 
 import {
     createFaculty,
@@ -11,6 +12,7 @@ import {
 } from './faculty.DAL'
 import Faculty from './faculty.model';
 
+dotenv.config();
 
 class facultyController {
     /**
@@ -43,13 +45,13 @@ class facultyController {
 
             const faculty = new Faculty(await findFacultyByEmailId(emailId));
 
+
             if (faculty) {
                 const match = await bcrypt.compare(password, faculty.password);
+                console.log(match);
 
                 if (match) {
-                    const privateKey = fs.readFileSync(
-                        join(__dirname,'../../keys/Private.key'),
-                    );
+                    const privateKey = process.env.PRIVATE_KEY
 
                     const token = jwt.sign({ id: faculty._id, emailId: faculty.emailId, departmentId: faculty.departmentId }, privateKey);
                     faculty.authToken = token;

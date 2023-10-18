@@ -16,7 +16,7 @@ class facultyRoutes {
 
     initializeRoutes() {
         //Create New User
-        this.router.post('/add',authentication,authorization, this.facultyController.createFaculty);
+        this.router.post('/add', this.facultyController.createFaculty);
 
         //Login User
         this.router.post('/login', this.facultyController.loginFaculty);

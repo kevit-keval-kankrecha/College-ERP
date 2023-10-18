@@ -3,3 +3,4 @@ lib/
 
 *.key
 
+.env

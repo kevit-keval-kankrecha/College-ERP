@@ -18,6 +18,7 @@ class departmentController {
      */
     async createDepartment(req, res) {
         try {
+            console.log(req.body)
             const departmentObj = req.body;
             const department = await createDepartment(departmentObj);
             res.status(200).send({ "success": true, "data": { "statusCode": 200, "data": department, "message": "New Department Created Successfully" } });
