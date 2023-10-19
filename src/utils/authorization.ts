@@ -83,16 +83,4 @@ export default async (req, res, next) => {
         .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
     }
   }
-
-  //manage access for attendance
-  else if (req.baseUrl === '/analysis') {
-    //Admin and Faculty can manage students
-    if (req.loginUser.role === 'Admin' || req.loginUser.role === 'Faculty') {
-      next();
-    } else {
-      res
-        .status(403)
-        .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
-    }
-  }
 };
