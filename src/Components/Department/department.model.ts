@@ -14,14 +14,13 @@ const departmentSchema = new Schema(
       required: true,
     },
     initial: {
-      type: Schema.Types.String,
-      required: true,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
+        type: Schema.Types.String,
+        required: true
+    }
+}, {
+    timestamps: true
+});
+
 
 const Department = model('Department', departmentSchema);
 export default Department;

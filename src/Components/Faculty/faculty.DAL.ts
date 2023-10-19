@@ -1,6 +1,7 @@
 import { ObjectId } from 'mongoose';
 
-import Faculty from './faculty.model';
+import Faculty from './faculty.model'
+
 
 /**
  * Create New Faculty in DB
@@ -8,11 +9,13 @@ import Faculty from './faculty.model';
  * @returns => New Created Faculty
  */
 export async function createFaculty(facultyBody) {
-  try {
-    return await Faculty.create(facultyBody);
-  } catch (error) {
-    throw new Error(error);
-  }
+    try {
+        return await Faculty.create(facultyBody);
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+
 }
 
 /**
@@ -20,11 +23,13 @@ export async function createFaculty(facultyBody) {
  * @param emailId => Faculty Email Id
  */
 export async function findFacultyByEmailId(emailId) {
-  try {
-    return await Faculty.findOne({ emailId });
-  } catch (error) {
-    throw new Error(error);
-  }
+    try {
+        return await Faculty.findOne({ emailId });
+    }
+    catch(error) {
+        throw new Error(error);
+    }
+
 }
 
 /**
@@ -32,19 +37,21 @@ export async function findFacultyByEmailId(emailId) {
  * @returns => List Faculties
  */
 export async function findFaculties(accessRoles) {
-  try {
-    return await Faculty.aggregate([
-      {
-        $match: {
-          role: {
-            $in: accessRoles,
-          },
-        },
-      },
-    ]).exec();
-  } catch (error) {
-    throw new Error(error);
-  }
+    try {
+        return await Faculty.aggregate([
+            {
+                '$match': {
+                    'role': {
+                        '$in': accessRoles
+                    }
+                }
+            }
+        ]).exec();
+    }
+    catch (error) {
+        throw new Error(error);
+    }
+
 }
 
 /**
@@ -52,8 +59,11 @@ export async function findFaculties(accessRoles) {
  * @param id => FacultyID
  * @returns => Faculty
  */
-export async function findFacultyById(id: ObjectId) {
-  try {
-    return await Faculty.findById(id);
-  } catch (error) {}
+export async function findFacultyById(id:ObjectId) {
+    try {
+        return await Faculty.findById(id);
+    }
+    catch (error) {
+    }
 }
+

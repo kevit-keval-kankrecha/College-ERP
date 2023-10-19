@@ -1,11 +1,33 @@
-import { Router } from 'express';
+import { Router } from "express";
+
 
 import studentController from './student.controller';
 import authentication from '../../utils/authentication';
 import authorization from '../../utils/authorization';
 
 class studentRoutes {
-  public router: Router;
+    public router: Router;
+
+    studentController = new studentController();
+
+    constructor() {
+        this.router = Router();
+        this.initializeRoutes();
+    }
+
+    initializeRoutes() {
+        //Create New Student
+        this.router.post('/add', authentication, authorization, this.studentController.createStudent);
+
+        //Login Student
+        this.router.post('/login', this.studentController.loginStudent);
+
+        //LogOut Students
+        this.router.post('/logout', authentication, authorization, this.studentController.logOutStudent);
+
+        //List Student
+        this.router.get('/', authentication, authorization, this.studentController.getStudents);
+
 
   studentController = new studentController();
 
