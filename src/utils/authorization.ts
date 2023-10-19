@@ -60,7 +60,7 @@ export default async (req, res, next) => {
         (req.method === 'PATCH' &&
           req.params.id == req.loginUser._id &&
           req.body.role !== 'Admin' &&
-          req.body.role === 'Faculty') ||
+          req.body.role !== 'Faculty') ||
         (req.method === 'GET' && req.path === '/me')
       ) {
         next();
