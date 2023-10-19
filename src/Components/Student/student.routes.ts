@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+
 import studentController from './student.controller';
 import authentication from '../../utils/authentication';
 import authorization from '../../utils/authorization';
@@ -27,30 +28,36 @@ class studentRoutes {
         //List Student
         this.router.get('/', authentication, authorization, this.studentController.getStudents);
 
-        //Update Student
-        this.router.patch('/update/:id?', authentication, authorization, this.studentController.updateStudent);
 
-        //Delete Student
-        this.router.delete('/delete/:id?', authentication, authorization, this.studentController.deleteStudent);
+  studentController = new studentController();
 
-        //Get Profile
-        this.router.get('/me', authentication, authorization, this.studentController.getProfile);
+  constructor() {
+    this.router = Router();
+    this.initializeRoutes();
+  }
 
-        //Student Analysis Routes
+  initializeRoutes() {
+    //Create New Student
+    this.router.post('/add', authentication, authorization, this.studentController.createStudent);
 
-        //get Batch and year wise Analysis
-        this.router.get('/getBatchDepartmentWiseStudents', this.studentController.getBatchDepartmentWiseData);
+    //Login Student
+    this.router.post('/login', this.studentController.loginStudent);
 
-        //get Absent Student
-        this.router.post('/getAbsentStudents', this.studentController.getAbsentStudentBatchYearSemesterDateWise);
+    //LogOut Students
+    this.router.post('/logout', authentication, authorization, this.studentController.logOutStudent);
 
-        //get present Students
-        this.router.post('/getMoreThen75PercentAttendanceStudent', this.studentController.getMoreThen75PercentStudent);
+    //List Student
+    this.router.get('/', authentication, authorization, this.studentController.getStudents);
 
-        //get present Students
-        this.router.get('/getVacancySeat', this.studentController.getVacancySeat);
-    }
+    //Update Student
+    this.router.patch('/update/:id?', authentication, authorization, this.studentController.updateStudent);
 
+    //Delete Student
+    this.router.delete('/delete/:id?', authentication, authorization, this.studentController.deleteStudent);
+
+    //Get Profile
+    this.router.get('/me', authentication, authorization, this.studentController.getProfile);
+  }
 }
 
-export default new studentRoutes().router
+export default new studentRoutes().router;

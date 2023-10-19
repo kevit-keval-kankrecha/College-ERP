@@ -1,13 +1,12 @@
 import { Router } from "express";
 
+
 import facultyController from './faculty.controller';
 import authentication from '../../utils/authentication';
 import authorization from '../../utils/authorization';
 
 class facultyRoutes {
-    public router: Router;
-
-    facultyController = new facultyController();
+  public router: Router;
 
     constructor() {
         this.router = Router();
@@ -18,24 +17,27 @@ class facultyRoutes {
         //Create New User
         this.router.post('/add',authentication,authorization, this.facultyController.createFaculty);
 
-        //Login User
-        this.router.post('/login', this.facultyController.loginFaculty);
 
-        //LogOut Users
-        this.router.post('/logout', authentication,authorization, this.facultyController.logOutFaculty);
+  initializeRoutes() {
+    //Create New User
+    this.router.post('/add', this.facultyController.createFaculty);
 
-        //List User
-        this.router.get('/', authentication, authorization,this.facultyController.getFaculties);
+    //Login User
+    this.router.post('/login', this.facultyController.loginFaculty);
 
-        //Update User
-        this.router.patch('/update/:id?', authentication,authorization, this.facultyController.updateFaculty);
+    //LogOut Users
+    this.router.post('/logout', authentication, authorization, this.facultyController.logOutFaculty);
 
-        //Delete User
-        this.router.delete('/delete/:id?', authentication,authorization, this.facultyController.deleteFaculty);
+    //List User
+    this.router.get('/', authentication, authorization, this.facultyController.getFaculties);
+
+    //Update User
+    this.router.patch('/update/:id?', authentication, authorization, this.facultyController.updateFaculty);
 
         //Get Profile
         this.router.get('/me', authentication,authorization, this.facultyController.getProfile); 
     }
+
 }
 
-export default new facultyRoutes().router
+export default new facultyRoutes().router;

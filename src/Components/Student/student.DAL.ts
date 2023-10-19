@@ -15,6 +15,7 @@ export async function createStudent(studentBody) {
     catch (error) {
         throw new Error(error);
     }
+
 }
 
 /**
@@ -30,6 +31,7 @@ export async function findStudentByEmailId(emailId) {
     catch (error) {
         throw new Error(error);
     }
+
 }
 
 /**
@@ -43,6 +45,7 @@ export async function findStudents() {
     catch (error) {
         throw new Error(error);
     }
+
 }
 
 /**
@@ -493,3 +496,4 @@ export async function getVacancySeat() {
         throw new Error(error)
     }
 }
+

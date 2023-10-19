@@ -1,5 +1,8 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
+import { join } from 'path';
+import * as dotenv from 'dotenv';
 
 import {
     createFaculty,
@@ -7,8 +10,10 @@ import {
     findFacultyById,
     findFaculties
 } from './faculty.DAL'
+
 import Faculty from './faculty.model';
 
+dotenv.config();
 
 class facultyController {
     /**
@@ -62,7 +67,13 @@ class facultyController {
         }
         catch (error) {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while Login" } });
+
         }
+      } else {
+        res.status(401).send({ success: false, error: { statusCode: 401, message: 'Invalid EmailId or Password' } });
+      }
+    } catch (error) {
+      res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while Login' } });
     }
 
     /**
@@ -164,6 +175,8 @@ class facultyController {
         catch {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while Loading your profile" } });
         }
+
     }
+  }
 }
 export default facultyController;

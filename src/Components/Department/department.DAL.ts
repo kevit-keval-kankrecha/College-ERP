@@ -2,6 +2,7 @@ import mongoose, { ObjectId } from 'mongoose';
 
 import Department from './department.model'
 
+
 /**
  * Create New Department in DB
  * @param departmentBody => Department Object to be created.
@@ -14,6 +15,7 @@ export async function createDepartment(departmentBody) {
     catch (error) {
         throw new Error(error);
     }
+
 }
 
 /**
@@ -27,6 +29,7 @@ export async function findDepartments() {
     catch (error) {
         throw new Error(error);
     }
+
 }
 
 /**
@@ -42,3 +45,4 @@ export async function findDepartmentById(id:ObjectId) {
         throw new Error(error);
     }
 }
+

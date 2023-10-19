@@ -25,7 +25,9 @@ class departmentController {
         catch (error) {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while creating new Department" } });
         }
+
     }
+  }
 
     /**
     * List Departments
@@ -40,7 +42,9 @@ class departmentController {
         catch (error) {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while Loading Departments" } });
         }
+
     }
+  }
 
     /**
      * Updates Department By DepartmentId
@@ -64,7 +68,9 @@ class departmentController {
         catch (error) {
             res.status(500).send({ error: error });
         }
+
     }
+  }
 
     /**
      * Delete Department By DepartmentId
@@ -85,6 +91,8 @@ class departmentController {
         catch (error) {
             res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": "Error while deleting Users" } });
         }
+
     }
+  }
 }
 export default departmentController;

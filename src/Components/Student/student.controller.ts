@@ -1,5 +1,7 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
+import { join } from 'path';
 
 import {
     createStudent,
@@ -227,6 +229,8 @@ class studentController {
         catch {
             res.status(500).send({ "success": false, "data": { "statusCode": 500, "message": "Something went wrong white retriving data" } });
         }
+
     }
+  }
 }
 export default studentController;

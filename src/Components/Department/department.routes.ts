@@ -1,13 +1,12 @@
 import { Router } from "express";
 
+
 import departmentController from './department.controller';
-import authentication from "../../utils/authentication";
-import authorization from "../../utils/authorization";
+import authentication from '../../utils/authentication';
+import authorization from '../../utils/authorization';
 
 class departmentRoutes {
-    public router: Router;
-
-    departmentController = new departmentController();
+  public router: Router;
 
     constructor() {
         this.router = Router();
@@ -18,8 +17,10 @@ class departmentRoutes {
         //Create Department
         this.router.post('/add', authentication,authorization, this.departmentController.createDepartment);
 
-        //List Departments
-        this.router.get('/', authentication, authorization, this.departmentController.getDepartments);
+
+  initializeRoutes() {
+    //Create Department
+    this.router.post('/add', authentication, authorization, this.departmentController.createDepartment);
 
         //Update Department By Id
         this.router.patch('/update/:id', authentication, authorization, this.departmentController.updateDepartment);
@@ -28,6 +29,10 @@ class departmentRoutes {
         this.router.delete('/delete/:id', authentication, authorization, this.departmentController.deleteDepartment);
     }
 
+
+    //Delete Department By Id
+    this.router.delete('/delete/:id', authentication, authorization, this.departmentController.deleteDepartment);
+  }
 }
 
-export default new departmentRoutes().router
+export default new departmentRoutes().router;

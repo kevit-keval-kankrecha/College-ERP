@@ -1,4 +1,4 @@
-import {Application} from 'express';
+import { Application } from 'express';
 import departmentRoutes from './Components/Department/department.routes';
 import facultyRoutes from './Components/Faculty/faculty.routes';
 import studentRoutes from './Components/Student/student.routes';
@@ -11,4 +11,5 @@ export default class ApplicationConfig {
         app.use('/faculty',facultyRoutes);
         app.use('/student',studentRoutes);
     }
+
 }

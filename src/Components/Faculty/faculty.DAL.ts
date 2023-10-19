@@ -15,6 +15,7 @@ export async function createFaculty(facultyBody) {
     catch (error) {
         throw new Error(error);
     }
+
 }
 
 /**
@@ -28,6 +29,7 @@ export async function findFacultyByEmailId(emailId) {
     catch(error) {
         throw new Error(error);
     }
+
 }
 
 /**
@@ -49,6 +51,7 @@ export async function findFaculties(accessRoles) {
     catch (error) {
         throw new Error(error);
     }
+
 }
 
 /**
@@ -63,3 +66,4 @@ export async function findFacultyById(id:ObjectId) {
     catch (error) {
     }
 }
+
