@@ -56,12 +56,10 @@ class facultyController {
           );
           faculty.authToken = token;
           await faculty.save();
-          res
-            .status(200)
-            .send({
-              success: true,
-              data: { statusCode: 200, data: faculty.authToken, message: 'Authentication Token Generated' },
-            });
+          res.status(200).send({
+            success: true,
+            data: { statusCode: 200, data: faculty.authToken, message: 'Authentication Token Generated' },
+          });
         } else {
           res.status(401).send({ success: false, error: { statusCode: 401, message: 'Invalid EmailId or Password' } });
         }

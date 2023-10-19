@@ -35,7 +35,6 @@ class studentRoutes {
 
     //Get Profile
     this.router.get('/me', authentication, authorization, this.studentController.getProfile);
-
   }
 }
 
