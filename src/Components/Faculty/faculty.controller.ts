@@ -44,8 +44,7 @@ class facultyController {
           .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
       }
 
-      const faculty = new Faculty(await findFacultyByEmailId(emailId));
-
+      const faculty = await findFacultyByEmailId(emailId);
       if (faculty) {
         const match = await bcrypt.compare(password, faculty.password);
 

@@ -9,12 +9,18 @@ beforeEach(db.setupDataBase);
 
 
 describe("Create new Faculty", () => {
-    test("Only Admin/Faculty can create new Student", async () => {
+    test("Admin can create new Student", async () => {
         const response = await request(app).post('/student/add')
             .set('Authorization', `Bearer ${db.facultyAdmin.authToken}`).
             send(db.demoStudentToCreate).
             expect(200);
+    });
 
+    test("Faculty can create new Student", async () => {
+        const response = await request(app).post('/student/add')
+            .set('Authorization', `Bearer ${db.facultyStaff.authToken}`).
+            send(db.demoStudentToCreate).
+            expect(200);
     });
 });
 
@@ -43,6 +49,18 @@ describe("update Student", () => {
 
         expect(response._body.success).toBe(true)
     });
+
+    test("Student can not Update Student By Id", async () => {
+        const response = await request(app).patch(`/student/update/${db.studentLogin._id}`)
+            .set('Authorization', `Bearer ${db.studentLogin.authToken}`).
+            send({
+                name:"Updated Student"
+            }).
+            expect(403);
+
+        expect(response._body.success).toBe(false)
+    });
+
 });
 
 

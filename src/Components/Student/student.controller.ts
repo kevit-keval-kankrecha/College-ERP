@@ -31,7 +31,6 @@ class studentController {
         .status(200)
         .send({ success: true, data: { statusCode: 200, data: student, message: 'New Student Created Successfully' } });
     } catch (error) {
-      console.log(error);
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while creating new Student' } });
     }
   }

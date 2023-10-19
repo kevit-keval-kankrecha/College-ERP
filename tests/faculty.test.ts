@@ -26,6 +26,8 @@ describe("Create new Faculty", () => {
 
         expect(response._body.success).toBe(false)
     });
+
+
 });
 
 
@@ -38,6 +40,17 @@ describe("Login Faculty", () => {
             }).
             expect(200);            
         expect(response._body.success).toBe(true)
+    });
+
+    test("Faculty could not able to Login while entering wrong username and password", async () => {
+        const response = await request(app).post('/faculty/login').
+            send({
+                emailId:"admin@gmail.com",
+                password:"kuchbhi"
+            }).
+            expect(401);            
+        expect(response._body.success).toBe(false)
+        
     });
 });
 
@@ -67,6 +80,29 @@ describe("update Faculty", () => {
         expect(response._body.success).toBe(true)
     });
 
+
+    test("Faculty can update their own profile with Admin role", async () => {
+        const response = await request(app).patch(`/faculty/update/${db.staffFacultyId}`)
+            .set('Authorization', `Bearer ${db.facultyStaff.authToken}`).
+            send({
+                name:"Update Faculty by theirself",
+                role:"Admin"    
+            }).
+            expect(403);
+        expect(response._body.success).toBe(false)
+    });
+
+    test("Faculty can update their own profile", async () => {
+        const response = await request(app).patch(`/faculty/update/${db.staffFacultyId}`)
+            .set('Authorization', `Bearer ${db.facultyStaff.authToken}`).
+            send({
+                name:"Update Faculty by theirself",
+                role:"Faculty"    
+            }).
+            expect(200);
+        expect(response._body.success).toBe(true)
+    });
+
 });
 
 
@@ -85,9 +121,6 @@ describe("delete Faculty", () => {
 
         expect(response._body.success).toBe(true)
     });
-
- 
-
 });
 
 
@@ -96,8 +129,6 @@ describe("Get Profile", () => {
         const response = await request(app).get(`/faculty/me`)
             .set('Authorization', `Bearer ${db.facultyStaff.authToken}`).
             expect(200);
-
-
         expect(response._body.success).toBe(true)
     });
 });
