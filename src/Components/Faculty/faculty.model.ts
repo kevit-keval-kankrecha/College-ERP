@@ -1,57 +1,56 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
 const { Schema, model } = mongoose;
 
 // Faculty Schema For DataBase
-const facultySchema = new Schema({
+const facultySchema = new Schema(
+  {
     name: {
-        type: Schema.Types.String,
-        required: true
+      type: Schema.Types.String,
+      required: true,
     },
     emailId: {
-        type: Schema.Types.String,
-        required: true
+      type: Schema.Types.String,
+      required: true,
     },
     password: {
-        type: Schema.Types.String,
-        require: true
+      type: Schema.Types.String,
+      require: true,
     },
     address: {
-        type: Schema.Types.String,
-        required: true
+      type: Schema.Types.String,
+      required: true,
     },
     departmentId: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'Department'
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'Department',
     },
     authToken: {
-        type: Schema.Types.String,
-        required: true,
-        default: ' '
+      type: Schema.Types.String,
+      required: true,
+      default: ' ',
     },
     role: {
-        type: Schema.Types.String,
-        required: true
-    }
-}, {
-    timestamps: true
-});
+      type: Schema.Types.String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 //encrypt password
 facultySchema.pre('save', async function (next) {
-    try {
-        if (this.isModified('password')) {
-            this.password = await bcrypt.hash(this.password, 8);
-        }
-        next();
+  try {
+    if (this.isModified('password')) {
+      this.password = await bcrypt.hash(this.password, 8);
     }
-    catch (error) {
-
-    }
+    next();
+  } catch (error) {}
 });
-
 
 const Faculty = model('Faculty', facultySchema);
 export default Faculty;
