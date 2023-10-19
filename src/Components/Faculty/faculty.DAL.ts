@@ -1,4 +1,3 @@
-
 import { Schema } from 'mongoose';
 import Faculty from './faculty.model';
 

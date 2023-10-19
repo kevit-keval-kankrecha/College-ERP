@@ -13,12 +13,10 @@ class departmentController {
     try {
       const departmentObj = req.body;
       const department = await createDepartment(departmentObj);
-      res
-        .status(200)
-        .send({
-          success: true,
-          data: { statusCode: 200, data: department, message: 'New Department Created Successfully' },
-        });
+      res.status(200).send({
+        success: true,
+        data: { statusCode: 200, data: department, message: 'New Department Created Successfully' },
+      });
     } catch (error) {
       res
         .status(500)
@@ -56,12 +54,10 @@ class departmentController {
         department[field] = req.body[field];
       }
       await department.save();
-      res
-        .status(200)
-        .send({
-          success: true,
-          data: { statusCode: 200, data: department, message: 'Department Updated Successfully' },
-        });
+      res.status(200).send({
+        success: true,
+        data: { statusCode: 200, data: department, message: 'Department Updated Successfully' },
+      });
     } catch (error) {
       res.status(500).send({ error: error });
     }
@@ -80,12 +76,10 @@ class departmentController {
         res.status(404).send({ success: false, error: { statusCode: 404, message: 'Department not found' } });
       }
       await department.deleteOne();
-      res
-        .status(200)
-        .send({
-          success: true,
-          data: { statusCode: 200, data: department, message: 'Department Deleted Sucessfully' },
-        });
+      res.status(200).send({
+        success: true,
+        data: { statusCode: 200, data: department, message: 'Department Deleted Sucessfully' },
+      });
     } catch (error) {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while deleting Users' } });
     }

@@ -48,7 +48,6 @@ export default async (req, res, next) => {
   else if (req.baseUrl === '/student') {
     //Admin and Faculty can manage students
     if (loginUser.role === 'Admin' || loginUser.role === 'Faculty') {
-
       next();
     }
 

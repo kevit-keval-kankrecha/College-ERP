@@ -8,7 +8,6 @@ export default async (req, res, next) => {
   try {
     dotenv.config();
 
-
     const token = req.header('Authorization').replace('Bearer ', '');
 
     const privateKey = process.env.PRIVATE_KEY;
@@ -25,7 +24,6 @@ export default async (req, res, next) => {
 
     //checking for valid token
     if (token === loginUser.authToken) {
-
       req.loginUser = loginUser;
       next();
     } else {

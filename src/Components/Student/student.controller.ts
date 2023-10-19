@@ -42,34 +42,31 @@ class studentController {
    * @param res => Express Response
    */
   async loginStudent(req, res) {
-
     try {
       const { emailId, password } = req.body;
       if (!emailId || !password) {
         res
-        .status(404)
-        .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
+          .status(404)
+          .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
       }
       const student = await findStudentByEmailId(emailId);
       if (student) {
         const match = await bcrypt.compare(password, student.password);
-        
+
         if (match) {
           const privateKey = process.env.PRIVATE_KEY;
-          
+
           const token = jwt.sign(
             { id: student._id, emailId: student.emailId, departmentId: student.departmentId },
             privateKey,
-            );
-            
+          );
+
           student.authToken = token;
           await student.save();
-          res
-            .status(200)
-            .send({
-              success: true,
-              data: { statusCode: 200, data: student.authToken, message: 'Authentication Token Generated' },
-            });
+          res.status(200).send({
+            success: true,
+            data: { statusCode: 200, data: student.authToken, message: 'Authentication Token Generated' },
+          });
         } else {
           res.status(401).send({ success: false, error: { statusCode: 401, message: 'Invalid EmailId or Password' } });
         }

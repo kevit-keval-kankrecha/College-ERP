@@ -40,13 +40,12 @@ class facultyController {
       const { emailId, password } = req.body;
       if (!emailId || !password) {
         res
-        .status(404)
-        .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
+          .status(404)
+          .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
       }
-      
+
       const faculty = new Faculty(await findFacultyByEmailId(emailId));
-      
-      
+
       if (faculty) {
         const match = await bcrypt.compare(password, faculty.password);
 
@@ -60,12 +59,10 @@ class facultyController {
 
           faculty.authToken = token;
           await faculty.save();
-          res
-            .status(200)
-            .send({
-              success: true,
-              data: { statusCode: 200, data: faculty.authToken, message: 'Authentication Token Generated' },
-            });
+          res.status(200).send({
+            success: true,
+            data: { statusCode: 200, data: faculty.authToken, message: 'Authentication Token Generated' },
+          });
         } else {
           res.status(401).send({ success: false, error: { statusCode: 401, message: 'Invalid EmailId or Password' } });
         }
