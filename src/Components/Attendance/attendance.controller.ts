@@ -1,7 +1,4 @@
-import {
-    fillAttendance
-} from './attendance.DAL'
-
+import { fillAttendance } from './attendance.DAL';
 
 /**
  * Fill Students Attendance
@@ -9,14 +6,13 @@ import {
  * @param res => Express Response
  */
 class studentController {
-    async fillAttendance(req, res) {
-        try {
-            const response = fillAttendance(req.body);
-            res.status(200).send({ "success": true, "data": { "statusCode": 200, "message": "Attendance Filled Successfully" } });
-        }
-        catch (error) {
-            res.status(500).send({ "success": false, "error": { "statusCode": 500, "message": error } });
-        }
+  async fillAttendance(req, res) {
+    try {
+      const response = fillAttendance(req.body);
+      res.status(200).send({ success: true, data: { statusCode: 200, message: 'Attendance Filled Successfully' } });
+    } catch (error) {
+      res.status(500).send({ success: false, error: { statusCode: 500, message: error } });
     }
+  }
 }
 export default studentController;

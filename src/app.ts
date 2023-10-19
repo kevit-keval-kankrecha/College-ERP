@@ -16,21 +16,19 @@ const PORT: string | number = Config.server.port;
 
 class app {
   public app: express.Application;
-  public ExpressServer :any;
+  public ExpressServer: any;
   constructor() {
     this.app = express();
 
     const server = http.createServer(this.app);
-    this.ExpressServer= server.listen(PORT, () => {
+    this.ExpressServer = server.listen(PORT, () => {
       log.info('Server Started..');
     });
     this.config();
     this.mongoSetup();
-
-    
   }
-  private config():void{
-    this.app.use(bodyParser.json({extends:true,limit:'50mb'}));
+  private config(): void {
+    this.app.use(bodyParser.json({ extends: true, limit: '50mb' }));
     applicationRoutes.registerRoute(this.app);
   }
   private mongoSetup(): void {
@@ -41,7 +39,7 @@ class app {
     mongoose.connect(mongoUrl, dbOptions);
 
     mongoose.connection.on('connected', () => {
-      log.info("Connected");
+      log.info('Connected');
     });
 
     mongoose.connection.on('error', (err) => {
@@ -53,5 +51,5 @@ class app {
     });
   }
 }
-export default new app().ExpressServer
+export default new app().ExpressServer;
 //new app();
