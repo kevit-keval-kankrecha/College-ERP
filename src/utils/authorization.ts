@@ -1,4 +1,3 @@
-import { findFacultyById } from '../Components/Faculty/faculty.DAL';
 
 export default async (req, res, next) => {
 
