@@ -1,5 +1,4 @@
-import { Router } from "express";
-
+import { Router } from 'express';
 
 import facultyController from './faculty.controller';
 import authentication from '../../utils/authentication';
@@ -8,19 +7,16 @@ import authorization from '../../utils/authorization';
 class facultyRoutes {
   public router: Router;
 
-    constructor() {
-        this.router = Router();
-        this.initializeRoutes();
-    }
+  facultyController = new facultyController();
 
-    initializeRoutes() {
-        //Create New User
-        this.router.post('/add',authentication,authorization, this.facultyController.createFaculty);
-
+  constructor() {
+    this.router = Router();
+    this.initializeRoutes();
+  }
 
   initializeRoutes() {
     //Create New User
-    this.router.post('/add', this.facultyController.createFaculty);
+    this.router.post('/add', authentication, authorization, this.facultyController.createFaculty);
 
     //Login User
     this.router.post('/login', this.facultyController.loginFaculty);
@@ -34,10 +30,12 @@ class facultyRoutes {
     //Update User
     this.router.patch('/update/:id?', authentication, authorization, this.facultyController.updateFaculty);
 
-        //Get Profile
-        this.router.get('/me', authentication,authorization, this.facultyController.getProfile); 
-    }
+    //Delete User
+    this.router.delete('/delete/:id?', authentication, authorization, this.facultyController.deleteFaculty);
 
+    //Get Profile
+    this.router.get('/me', authentication, authorization, this.facultyController.getProfile);
+  }
 }
 
 export default new facultyRoutes().router;

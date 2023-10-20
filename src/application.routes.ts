@@ -5,11 +5,10 @@ import studentRoutes from './Components/Student/student.routes';
 import IndexRoute from './index';
 
 export default class ApplicationConfig {
-    public static registerRoute(app:Application){
-        app.use('/', IndexRoute);
-        app.use('/department',departmentRoutes);
-        app.use('/faculty',facultyRoutes);
-        app.use('/student',studentRoutes);
-    }
-
+  public static registerRoute(app: Application) {
+    app.use('/', IndexRoute);
+    app.use('/department', departmentRoutes);
+    app.use('/faculty', facultyRoutes);
+    app.use('/student', studentRoutes);
+  }
 }

@@ -25,9 +25,8 @@ const studentSchema = new Schema(
       required: true,
     },
     password: {
-        type: Schema.Types.String,
-        required: true
-
+      type: Schema.Types.String,
+      required: true,
     },
     address: {
       type: Schema.Types.String,
@@ -44,10 +43,9 @@ const studentSchema = new Schema(
       default: ' ',
     },
     semester: {
-        type: Schema.Types.Number,
-        required: true,
-        default: 1
-
+      type: Schema.Types.Number,
+      required: true,
+      default: 1,
     },
     batchYear: {
       type: Schema.Types.Number,
