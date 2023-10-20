@@ -54,6 +54,7 @@ export async function findStudentById(id: mongoose.ObjectId) {
   }
 }
 
+
 /**
  * Find BatchYear, Department and Semester Wise Student Count
  * @returns Student Count

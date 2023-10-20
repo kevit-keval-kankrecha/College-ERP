@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import * as fs from 'fs';
 import { join } from 'path';
 
+=======
 import {
   createStudent,
   findStudentByEmailId,
@@ -174,6 +175,7 @@ class studentController {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while Loading your profile' } });
     }
   }
+
 
   /**
    * Get Batch,Year,Department Wise Students Count

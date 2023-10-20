@@ -52,5 +52,6 @@ class app {
     });
   }
 }
+
 export default new app().ExpressServer;
 //new app();

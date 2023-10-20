@@ -6,6 +6,7 @@ import * as jwt from 'jsonwebtoken';
 
 export default async (req, res, next) => {
   try {
+
     dotenv.config();
     const token = req.header('Authorization').replace('Bearer ', '');
 
@@ -25,12 +26,13 @@ export default async (req, res, next) => {
     if (token === loginUser.authToken) {
       req.loginUser = loginUser;
 
+
       next();
     } else {
       res.status(401).send({ success: false, error: { statusCode: 401, message: 'Unauthorized User' } });
     }
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ success: false, error: { statusCode: 401, message: `${error}` } });
+    res.status(401).send({ success: false, error: { statusCode: 401, message: 'Unauthorized User' } });
+
   }
 };
