@@ -24,6 +24,8 @@ export default async (req, res, next) => {
     //checking for valid token
     if (token === loginUser.authToken) {
       req.loginUser = loginUser;
+
+
       next();
     } else {
       res.status(401).send({ success: false, error: { statusCode: 401, message: 'Unauthorized User' } });
