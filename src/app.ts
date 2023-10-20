@@ -1,25 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import * as express from 'express';
 import * as http from 'http';
 import * as bodyParser from 'body-parser';
+import * as dotenv from 'dotenv';
 
 import Config from './config';
 import applicationRoutes from './application.routes';
-
 import { log } from './utils/winston-logger';
-import ApplicationConfig from './application.routes';
+
+//For use Environment Variable
+dotenv.config();
 
 const mongoUrl: string = Config.mongodb.url;
 const PORT: string | number = Config.server.port;
 
 class app {
   public app: express.Application;
-
+  public ExpressServer: any;
   constructor() {
     this.app = express();
 
     const server = http.createServer(this.app);
-    server.listen(PORT, () => {
+    this.ExpressServer = server.listen(PORT, () => {
       log.info('Server Started..');
     });
     this.config();
@@ -30,6 +32,7 @@ class app {
     applicationRoutes.registerRoute(this.app);
   }
   private mongoSetup(): void {
+    console.log(mongoUrl);
     const dbOptions = {
       maxPoolSize: 5,
       useNewUrlParser: true,
@@ -49,4 +52,6 @@ class app {
     });
   }
 }
-new app();
+
+export default new app().ExpressServer;
+//new app();

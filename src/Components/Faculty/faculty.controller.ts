@@ -1,8 +1,16 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
+import { join } from 'path';
+import * as dotenv from 'dotenv';
 
 import { createFaculty, findFacultyByEmailId, findFacultyById, findFaculties } from './faculty.DAL';
+
+
+
 import Faculty from './faculty.model';
+
+dotenv.config();
 
 class facultyController {
   /**

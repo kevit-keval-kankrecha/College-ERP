@@ -1,7 +1,19 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import * as fs from 'fs';
+import { join } from 'path';
 
-import { createStudent, findStudentByEmailId, findStudentById, findStudents } from './student.DAL';
+=======
+import {
+  createStudent,
+  findStudentByEmailId,
+  findStudentById,
+  findStudents,
+  getAbsentStudentBatchYearSemesterDateWise,
+  getBatchDepartmentWiseData,
+  getMoreThen75PercentStudent,
+  getVacancySeat,
+} from './student.DAL';
 
 class studentController {
   /**
@@ -161,6 +173,71 @@ class studentController {
       res.status(200).send({ success: true, data: { statusCode: 200, data: student, message: 'Profile' } });
     } catch {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while Loading your profile' } });
+    }
+  }
+
+
+  /**
+   * Get Batch,Year,Department Wise Students Count
+   * @param req => Express Request
+   * @param res => Express Response
+   */
+  async getBatchDepartmentWiseData(req, res) {
+    try {
+      const data = await getVacancySeat();
+      res.status(200).send({ success: true, data: { statusCode: 200, data: data, message: 'Success' } });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retriving data' } });
+    }
+  }
+
+  /**
+   * Get Absent Student List
+   * @param req => Express Request
+   * @param res => Express Response
+   */
+  async getAbsentStudentBatchYearSemesterDateWise(req, res) {
+    try {
+      const data = await getAbsentStudentBatchYearSemesterDateWise(req.body);
+      res.status(200).send({ success: true, data: { statusCode: 200, data: data, message: 'Success' } });
+    } catch {
+      res
+        .status(500)
+        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retriving data' } });
+    }
+  }
+
+  /**
+   * Get Students whose Attendance is more then 75%
+   * @param req => Express Request
+   * @param res => Express Response
+   */
+  async getMoreThen75PercentStudent(req, res) {
+    try {
+      const data = await getMoreThen75PercentStudent(req.body);
+      res.status(200).send({ success: true, data: { statusCode: 200, data: data, message: 'Success' } });
+    } catch {
+      res
+        .status(500)
+        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retriving data' } });
+    }
+  }
+
+  /**
+   * Get Department and Year wise vacancy
+   * @param req => Express Request
+   * @param res => Express Response
+   */
+  async getVacancySeat(req, res) {
+    try {
+      const data = await getVacancySeat();
+      res.status(200).send({ success: true, data: { statusCode: 200, data: data, message: 'Success' } });
+    } catch {
+      res
+        .status(500)
+        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retriving data' } });
     }
   }
 }
