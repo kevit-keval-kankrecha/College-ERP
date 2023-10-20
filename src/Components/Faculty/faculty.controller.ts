@@ -6,8 +6,6 @@ import * as dotenv from 'dotenv';
 
 import { createFaculty, findFacultyByEmailId, findFacultyById, findFaculties } from './faculty.DAL';
 
-
-
 import Faculty from './faculty.model';
 
 dotenv.config();
