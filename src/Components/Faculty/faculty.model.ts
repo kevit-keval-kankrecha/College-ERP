@@ -42,13 +42,13 @@ const facultySchema = new Schema(
   },
 );
 
-export interface sampleFaculty{
-  name:String,
-  emailId:String,
-  password:String,
-  address:String,
-  department:String,
-  role:String
+export interface sampleFaculty {
+  name: String;
+  emailId: String;
+  password: String;
+  address: String;
+  department: String;
+  role: String;
 }
 
 //encrypt password

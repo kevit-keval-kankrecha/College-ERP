@@ -67,15 +67,15 @@ const studentSchema = new Schema(
   },
 );
 
-export interface sampleStudent{
-  name:String,
-  emailId:String,
-  password:String,
-  address:String,
-  departmentId:String,
-  semester:Number,
-  batchYear:Number,
-  onRoll:boolean
+export interface sampleStudent {
+  name: String;
+  emailId: String;
+  password: String;
+  address: String;
+  departmentId: String;
+  semester: Number;
+  batchYear: Number;
+  onRoll: boolean;
 }
 
 //encrypt password

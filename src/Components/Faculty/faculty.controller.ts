@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 
 import { createFaculty, findFacultyByEmailId, findFacultyById, findFaculties } from './faculty.DAL';
 
-import {sampleFaculty} from './faculty.model';
+import { sampleFaculty } from './faculty.model';
 
 dotenv.config();
 
@@ -18,7 +18,7 @@ class facultyController {
    */
   async createFaculty(req: Request, res: Response) {
     try {
-      const facultyObj:sampleFaculty = req.body;
+      const facultyObj: sampleFaculty = req.body;
       const faculty = await createFaculty(facultyObj);
       res
         .status(201)
@@ -119,7 +119,7 @@ class facultyController {
       if (!faculty) {
         res.status(404).send({ success: false, error: { statusCode: 404, message: 'faculty not found' } });
       }
-
+      
       for (const field in req.body) {
         faculty[field] = req.body[field];
       }

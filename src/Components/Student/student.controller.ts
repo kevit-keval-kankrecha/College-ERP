@@ -25,7 +25,7 @@ class studentController {
    */
   async createStudent(req: Request, res: Response) {
     try {
-      const studentObj:sampleStudent = req.body;
+      const studentObj: sampleStudent = req.body;
       const student = await createStudent(studentObj);
 
       res
