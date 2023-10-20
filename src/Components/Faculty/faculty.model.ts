@@ -16,7 +16,7 @@ const facultySchema = new Schema(
     },
     password: {
       type: Schema.Types.String,
-      require: true,
+      required: true,
     },
     address: {
       type: Schema.Types.String,
@@ -41,6 +41,15 @@ const facultySchema = new Schema(
     timestamps: true,
   },
 );
+
+export interface sampleFaculty{
+  name:String,
+  emailId:String,
+  password:String,
+  address:String,
+  department:String,
+  role:String
+}
 
 //encrypt password
 facultySchema.pre('save', async function (next) {

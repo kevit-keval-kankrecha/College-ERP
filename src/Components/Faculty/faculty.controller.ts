@@ -6,7 +6,7 @@ import * as dotenv from 'dotenv';
 
 import { createFaculty, findFacultyByEmailId, findFacultyById, findFaculties } from './faculty.DAL';
 
-import Faculty from './faculty.model';
+import {sampleFaculty} from './faculty.model';
 
 dotenv.config();
 
@@ -18,13 +18,13 @@ class facultyController {
    */
   async createFaculty(req: Request, res: Response) {
     try {
-      const facultyObj = req.body;
+      const facultyObj:sampleFaculty = req.body;
       const faculty = await createFaculty(facultyObj);
       res
         .status(201)
         .send({ success: true, data: { statusCode: 201, data: faculty, message: 'New Faculty Created Successfully' } });
     } catch (error) {
-      res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while creating new user' } });
+      res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while creating new Faculty' } });
     }
   }
 
