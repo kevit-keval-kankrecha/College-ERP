@@ -24,12 +24,9 @@ class app {
     });
     this.config();
     this.mongoSetup();
-    
-    
-  
   }
-  private config():void{
-    this.app.use(bodyParser.json({extends:true,limit:'50mb'}));
+  private config(): void {
+    this.app.use(bodyParser.json({ extends: true, limit: '50mb' }));
     applicationRoutes.registerRoute(this.app);
   }
   private mongoSetup(): void {
@@ -40,7 +37,7 @@ class app {
     mongoose.connect(mongoUrl, dbOptions);
 
     mongoose.connection.on('connected', () => {
-      log.info("Connected");
+      log.info('Connected');
     });
 
     mongoose.connection.on('error', (err) => {

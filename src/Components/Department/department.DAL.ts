@@ -1,6 +1,6 @@
 import mongoose, { ObjectId } from 'mongoose';
 
-import Department from './department.model'
+import Department from './department.model';
 
 /**
  * Create New Department in DB
@@ -8,12 +8,11 @@ import Department from './department.model'
  * @returns => New Created Department
  */
 export async function createDepartment(departmentBody) {
-    try {
-        return await Department.create(departmentBody);
-    }
-    catch (error) {
-        throw new Error(error);
-    }
+  try {
+    return await Department.create(departmentBody);
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 /**
@@ -21,12 +20,11 @@ export async function createDepartment(departmentBody) {
  * @returns => List Departments
  */
 export async function findDepartments() {
-    try {
-        return await Department.find().sort({ name: 1 });
-    }
-    catch (error) {
-        throw new Error(error);
-    }
+  try {
+    return await Department.find().sort({ name: 1 });
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 /**
@@ -34,11 +32,10 @@ export async function findDepartments() {
  * @param id DepartmentID
  * @returns Department
  */
-export async function findDepartmentById(id:ObjectId) {
-    try {
-        return await Department.findById(id);
-    }
-    catch (error) {
-        throw new Error(error);
-    }
+export async function findDepartmentById(id: ObjectId) {
+  try {
+    return await Department.findById(id);
+  } catch (error) {
+    throw new Error(error);
+  }
 }
