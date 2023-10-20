@@ -7,7 +7,7 @@ import Student from './student.model';
  * @param studentBody => Student Object to be created.
  * @returns => New Created Student
  */
-export async function createStudent(studentBody) {
+export async function createStudent(studentBody: object) {
   try {
     return await Student.create(studentBody);
   } catch (error) {
@@ -46,7 +46,7 @@ export async function findStudents() {
  * @param id => Student Id
  * @returns => Student
  */
-export async function findStudentById(id: mongoose.ObjectId) {
+export async function findStudentById(id: string) {
   try {
     return await Student.findById(id);
   } catch (error) {
@@ -151,7 +151,6 @@ export async function getBatchDepartmentWiseData() {
       },
     ];
     const data = await Student.aggregate(pipeline).allowDiskUse(true).exec();
-
     return data;
   } catch (error) {
     throw new Error(error);
@@ -163,7 +162,7 @@ export async function getBatchDepartmentWiseData() {
  * @param requestBody => year,branch,semester,date within a Object
  * @returns => Absent Students
  */
-export async function getAbsentStudentBatchYearSemesterDateWise(requestBody) {
+export async function getAbsentStudentBatchYearSemesterDateWise(requestBody: { [key: string]: any }) {
   try {
     const pipeline: any = [
       {
@@ -241,6 +240,14 @@ export async function getAbsentStudentBatchYearSemesterDateWise(requestBody) {
       };
       pipeline.unshift(object);
     }
+    if (requestBody.branch) {
+      const object = {
+        $match: {
+          'result.initial': requestBody.branch,
+        },
+      };
+      pipeline.splice(2, 0, object);
+    }
     if (requestBody.semester) {
       const object = {
         $match: {
@@ -261,7 +268,7 @@ export async function getAbsentStudentBatchYearSemesterDateWise(requestBody) {
  * @param requestBody year,branch,semester within a Object
  * @returns => Students whose attendance is more then 75%
  */
-export async function getMoreThen75PercentStudent(requestBody) {
+export async function getMoreThen75PercentStudent(requestBody: { [key: string]: any }) {
   try {
     const pipeline: any = [
       {
@@ -372,9 +379,9 @@ export async function getMoreThen75PercentStudent(requestBody) {
  * Find Vacancy Seats
  * @returns => Department,Year wise Vacancy of seat
  */
-export async function getVacancySeat() {
+export async function getVacancySeat(requestBody) {
   try {
-    const pipeline = [
+    const pipeline: any = [
       {
         $lookup: {
           from: 'departments',
@@ -488,6 +495,22 @@ export async function getVacancySeat() {
         },
       },
     ];
+    if (requestBody.batch) {
+      const object = {
+        $match: {
+          batchYear: requestBody.batch,
+        },
+      };
+      pipeline.unshift(object);
+    }
+    if (requestBody.branch) {
+      const object = {
+        $match: {
+          'result.initial': requestBody.branch,
+        },
+      };
+      pipeline.splice(2, 0, object);
+    }
     const data = await Student.aggregate(pipeline).allowDiskUse(true).exec();
 
     return data;

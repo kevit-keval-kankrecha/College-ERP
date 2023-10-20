@@ -1,7 +1,7 @@
 import { Application } from 'express';
 import departmentRoutes from './Components/Department/department.routes';
 import facultyRoutes from './Components/Faculty/faculty.routes';
-import attendanceRoutes from 'Components/Attendance/attendance.routes';
+import attendanceRoutes from './Components/Attendance/attendance.routes';
 import studentRoutes from './Components/Student/student.routes';
 import IndexRoute from './index';
 

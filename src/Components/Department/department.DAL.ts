@@ -1,4 +1,4 @@
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose, { ObjectId, Schema } from 'mongoose';
 
 import Department from './department.model';
 
@@ -7,7 +7,7 @@ import Department from './department.model';
  * @param departmentBody => Department Object to be created.
  * @returns => New Created Department
  */
-export async function createDepartment(departmentBody) {
+export async function createDepartment(departmentBody: object) {
   try {
     return await Department.create(departmentBody);
   } catch (error) {
@@ -32,7 +32,7 @@ export async function findDepartments() {
  * @param id DepartmentID
  * @returns Department
  */
-export async function findDepartmentById(id: ObjectId) {
+export async function findDepartmentById(id: string) {
   try {
     return await Department.findById(id);
   } catch (error) {

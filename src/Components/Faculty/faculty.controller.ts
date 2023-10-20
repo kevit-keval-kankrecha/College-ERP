@@ -1,7 +1,7 @@
+import { Request } from 'express';
+import { Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import * as fs from 'fs';
-import { join } from 'path';
 import * as dotenv from 'dotenv';
 
 import { createFaculty, findFacultyByEmailId, findFacultyById, findFaculties } from './faculty.DAL';
@@ -16,13 +16,13 @@ class facultyController {
    * @param {Request} req => Express Request
    * @param {Response} res => Express Response
    */
-  async createFaculty(req, res) {
+  async createFaculty(req: Request, res: Response) {
     try {
       const facultyObj = req.body;
       const faculty = await createFaculty(facultyObj);
       res
-        .status(200)
-        .send({ success: true, data: { statusCode: 200, data: faculty, message: 'New Faculty Created Successfully' } });
+        .status(201)
+        .send({ success: true, data: { statusCode: 201, data: faculty, message: 'New Faculty Created Successfully' } });
     } catch (error) {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while creating new user' } });
     }
@@ -33,7 +33,7 @@ class facultyController {
    * @param {Request} req => Express Request
    * @param {Response} res => Express Response
    */
-  async loginFaculty(req, res) {
+  async loginFaculty(req: Request, res: Response) {
     try {
       const { emailId, password } = req.body;
       if (!emailId || !password) {
@@ -42,13 +42,12 @@ class facultyController {
           .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
       }
 
-      const faculty = new Faculty(await findFacultyByEmailId(emailId));
+      const faculty = await findFacultyByEmailId(emailId);
 
       if (faculty) {
         const match = await bcrypt.compare(password, faculty.password);
-
         if (match) {
-          const privateSecret = '12abnjbnjh3gdhr45678451@@##!@#!';
+          const privateSecret = process.env.PRIVATE_KEY;
 
           const token = jwt.sign(
             { id: faculty._id, emailId: faculty.emailId, departmentId: faculty.departmentId },
@@ -76,7 +75,7 @@ class facultyController {
    * @param {Request} req => Express Request
    * @param {Response} res => Express Response
    */
-  async logOutFaculty(req, res) {
+  async logOutFaculty(req: Request, res: Response) {
     try {
       const id = req.loginUser.id;
       const faculty = await findFacultyById(id);
@@ -98,9 +97,9 @@ class facultyController {
    * @param {Request} req => Express Request
    * @param {Response} res => Express Response
    */
-  async getFaculties(req, res) {
+  async getFaculties(req: Request, res: Response) {
     try {
-      const faculties = await findFaculties(req.accessRoles);
+      const faculties = await findFaculties();
       res.status(200).send({ success: true, data: { statusCode: 200, data: faculties, message: 'Success' } });
     } catch (error) {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while Loading Users' } });
@@ -112,7 +111,7 @@ class facultyController {
    * @param {Request} req => Express Request
    * @param {Response} res => Express Response
    */
-  async updateFaculty(req, res) {
+  async updateFaculty(req: Request, res: Response) {
     try {
       let id = req.params.id;
 
@@ -127,7 +126,7 @@ class facultyController {
       await faculty.save();
       res
         .status(200)
-        .send({ success: true, data: { statusCode: 200, data: faculty, message: 'faculty Updated Sucessfully' } });
+        .send({ success: true, data: { statusCode: 200, data: faculty, message: 'faculty Updated Successfully' } });
     } catch (error) {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while updating faculty' } });
     }
@@ -138,7 +137,7 @@ class facultyController {
    * @param {Request} req => Express Request
    * @param {Response} res => Express Response
    */
-  async deleteFaculty(req, res) {
+  async deleteFaculty(req: Request, res: Response) {
     try {
       const id = req.params.id;
       const faculty = await findFacultyById(id);
@@ -148,7 +147,7 @@ class facultyController {
       await faculty.deleteOne();
       res
         .status(200)
-        .send({ success: true, data: { statusCode: 200, data: faculty, message: 'faculty Deleted Sucessfully' } });
+        .send({ success: true, data: { statusCode: 200, data: faculty, message: 'faculty Deleted Successfully' } });
     } catch (error) {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while deleting faculty' } });
     }
@@ -159,7 +158,7 @@ class facultyController {
    * @param {Request} req => Express Request
    * @param {Response} res => Express Response
    */
-  async getProfile(req, res) {
+  async getProfile(req: Request, res: Response) {
     try {
       const faculty = await findFacultyById(req.loginUser._id);
       if (!faculty) {

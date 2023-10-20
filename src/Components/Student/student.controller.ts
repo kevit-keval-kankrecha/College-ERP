@@ -1,7 +1,8 @@
+import { Request } from 'express';
+import { Response } from 'express';
+import * as dotenv from 'dotenv';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
-import * as fs from 'fs';
-import { join } from 'path';
 
 import {
   createStudent,
@@ -9,10 +10,11 @@ import {
   findStudentById,
   findStudents,
   getAbsentStudentBatchYearSemesterDateWise,
-  getBatchDepartmentWiseData,
   getMoreThen75PercentStudent,
   getVacancySeat,
 } from './student.DAL';
+
+dotenv.config();
 
 class studentController {
   /**
@@ -20,14 +22,14 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async createStudent(req, res) {
+  async createStudent(req: Request, res: Response) {
     try {
       const studentObj = req.body;
       const student = await createStudent(studentObj);
 
       res
-        .status(200)
-        .send({ success: true, data: { statusCode: 200, data: student, message: 'New Student Created Successfully' } });
+        .status(201)
+        .send({ success: true, data: { statusCode: 201, data: student, message: 'New Student Created Successfully' } });
     } catch (error) {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while creating new Student' } });
     }
@@ -38,7 +40,7 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async loginStudent(req, res) {
+  async loginStudent(req: Request, res: Response) {
     try {
       const { emailId, password } = req.body;
       if (!emailId || !password) {
@@ -51,7 +53,7 @@ class studentController {
         const match = await bcrypt.compare(password, student.password);
 
         if (match) {
-          const privateSecret = '12abnjbnjh3gdhr45678451@@##!@#!';
+          const privateSecret = process.env.PRIVATE_KEY;
 
           const token = jwt.sign(
             { id: student._id, emailId: student.emailId, departmentId: student.departmentId },
@@ -79,7 +81,7 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async logOutStudent(req, res) {
+  async logOutStudent(req: Request, res: Response) {
     try {
       const id = req.loginUser.id;
       const student = await findStudentById(id);
@@ -101,7 +103,7 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async getStudents(req, res) {
+  async getStudents(req: Request, res: Response) {
     try {
       const students = await findStudents();
       res.status(200).send({ success: true, data: { statusCode: 200, data: students, message: 'Success' } });
@@ -115,7 +117,7 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async updateStudent(req, res) {
+  async updateStudent(req: Request, res: Response) {
     try {
       const id = req.params.id;
 
@@ -130,7 +132,7 @@ class studentController {
       await student.save();
       res
         .status(200)
-        .send({ success: true, data: { statusCode: 200, data: student, message: 'student Updated Sucessfully' } });
+        .send({ success: true, data: { statusCode: 200, data: student, message: 'student Updated Successfully' } });
     } catch (error) {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while updating student' } });
     }
@@ -141,7 +143,7 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async deleteStudent(req, res) {
+  async deleteStudent(req: Request, res: Response) {
     try {
       const id = req.params.id;
       const student = await findStudentById(id);
@@ -152,7 +154,7 @@ class studentController {
       await student.deleteOne();
       res
         .status(200)
-        .send({ success: true, data: { statusCode: 200, data: student, message: 'student Deleted Sucessfully' } });
+        .send({ success: true, data: { statusCode: 200, data: student, message: 'student Deleted Successfully' } });
     } catch (error) {
       res.status(500).send({ success: false, error: { statusCode: 500, message: 'Error while deleting student' } });
     }
@@ -163,7 +165,7 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async getProfile(req, res) {
+  async getProfile(req: Request, res: Response) {
     try {
       const student = await findStudentById(req.loginUser._id);
       if (!student) {
@@ -180,14 +182,14 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async getBatchDepartmentWiseData(req, res) {
+  async getBatchDepartmentWiseData(req: Request, res: Response) {
     try {
-      const data = await getVacancySeat();
+      const data = await getVacancySeat(req.body);
       res.status(200).send({ success: true, data: { statusCode: 200, data: data, message: 'Success' } });
     } catch (error) {
       res
         .status(500)
-        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retriving data' } });
+        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retrieving data' } });
     }
   }
 
@@ -196,14 +198,14 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async getAbsentStudentBatchYearSemesterDateWise(req, res) {
+  async getAbsentStudentBatchYearSemesterDateWise(req: Request, res: Response) {
     try {
       const data = await getAbsentStudentBatchYearSemesterDateWise(req.body);
       res.status(200).send({ success: true, data: { statusCode: 200, data: data, message: 'Success' } });
     } catch {
       res
         .status(500)
-        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retriving data' } });
+        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retrieving data' } });
     }
   }
 
@@ -212,14 +214,14 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async getMoreThen75PercentStudent(req, res) {
+  async getMoreThen75PercentStudent(req: Request, res: Response) {
     try {
       const data = await getMoreThen75PercentStudent(req.body);
       res.status(200).send({ success: true, data: { statusCode: 200, data: data, message: 'Success' } });
     } catch {
       res
         .status(500)
-        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retriving data' } });
+        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retrieving data' } });
     }
   }
 
@@ -228,14 +230,14 @@ class studentController {
    * @param req => Express Request
    * @param res => Express Response
    */
-  async getVacancySeat(req, res) {
+  async getVacancySeat(req: Request, res: Response) {
     try {
-      const data = await getVacancySeat();
+      const data = await getVacancySeat(req.body);
       res.status(200).send({ success: true, data: { statusCode: 200, data: data, message: 'Success' } });
     } catch {
       res
         .status(500)
-        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retriving data' } });
+        .send({ success: false, data: { statusCode: 500, message: 'Something went wrong white retrieving data' } });
     }
   }
 }

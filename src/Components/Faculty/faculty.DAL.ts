@@ -7,7 +7,7 @@ import Faculty from './faculty.model';
  * @param FacultyBody => Faculty Object to be created.
  * @returns => New Created Faculty
  */
-export async function createFaculty(facultyBody) {
+export async function createFaculty(facultyBody: object) {
   try {
     return await Faculty.create(facultyBody);
   } catch (error) {
@@ -19,7 +19,7 @@ export async function createFaculty(facultyBody) {
  * Find Faculty From DB
  * @param emailId => Faculty Email Id
  */
-export async function findFacultyByEmailId(emailId) {
+export async function findFacultyByEmailId(emailId: string) {
   try {
     return await Faculty.findOne({ emailId });
   } catch (error) {
@@ -31,17 +31,9 @@ export async function findFacultyByEmailId(emailId) {
  * Find All Faculties From DB
  * @returns => List Faculties
  */
-export async function findFaculties(accessRoles) {
+export async function findFaculties() {
   try {
-    return await Faculty.aggregate([
-      {
-        $match: {
-          role: {
-            $in: accessRoles,
-          },
-        },
-      },
-    ]).exec();
+    return await Faculty.find();
   } catch (error) {
     throw new Error(error);
   }

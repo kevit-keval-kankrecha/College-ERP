@@ -21,8 +21,6 @@ export default async (req, res, next) => {
   else if (req.baseUrl === '/faculty') {
     //Admin can manage all user
     if (loginUser.role === 'Admin') {
-      //Faculty Access
-      req.accessRoles = ['Faculty'];
       next();
     }
 
@@ -57,10 +55,7 @@ export default async (req, res, next) => {
         req.params.id = req.loginUser._id;
       }
       if (
-        (req.method === 'PATCH' &&
-          req.params.id == req.loginUser._id &&
-          req.body.role !== 'Admin' &&
-          req.body.role === 'Faculty') ||
+        (req.method === 'PATCH' && req.params.id == req.loginUser._id) ||
         (req.method === 'GET' && req.path === '/me')
       ) {
         next();
