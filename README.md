@@ -5,7 +5,7 @@
 
 
 ## Installation
-* clone the repository from https://github.com/kevit-keval-kankrecha/College-ERP to your local folder on your machine or download zip file from here and extract the archive if you don't have Git intalled.
+* clone the repository from https://github.com/kevit-keval-kankrecha/College-ERP.git to your local folder on your machine or download zip file from here and extract the archive if you don't have Git intalled.
 
 * install require node modules for application by writing following command.
 
@@ -21,7 +21,6 @@ npm i -D
 - Rename the `example.env` file to the `.env` and initialize the variables that are inside it.
 ```
 
-* to run College-ERP application write following command
 
 ## Run Application
 
