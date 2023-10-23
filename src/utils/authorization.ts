@@ -53,7 +53,7 @@ export default async (req, res, next) => {
 
     //Student can only change their data and view profile for theirself
     else {
-      console.log("hi");
+      console.log('hi');
       if (req.params.id === undefined) {
         req.params.id = req.loginUser._id;
       }
