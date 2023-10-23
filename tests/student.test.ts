@@ -51,7 +51,7 @@ describe("update Student", () => {
     });
 
     test("Student can not Update Student By Id", async () => {
-        const response = await request(app).patch(`/student/update/${db.studentLogin._id}`)
+        const response = await request(app).patch(`/student/update/${db.facultyAdmin._id}`)
             .set('Authorization', `Bearer ${db.studentLogin.authToken}`).
             send({
                 name:"Updated Student"
