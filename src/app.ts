@@ -19,7 +19,7 @@ class app {
   public ExpressServer: any;
   constructor() {
     this.app = express();
-    this.ExpressServer=this.app.listen(PORT, () => {
+    this.ExpressServer = this.app.listen(PORT, () => {
       log.info('Server Started..');
     });
     this.config();
