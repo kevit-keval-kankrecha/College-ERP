@@ -13,7 +13,7 @@ import {
   getMoreThen75PercentStudent,
   getVacancySeat,
 } from './student.DAL';
-import { sampleStudent } from './student.model';
+import { IStudent } from './student.model';
 
 dotenv.config();
 
@@ -25,7 +25,7 @@ class studentController {
    */
   async createStudent(req: Request, res: Response) {
     try {
-      const studentObj: sampleStudent = req.body;
+      const studentObj: IStudent = req.body;
       const student = await createStudent(studentObj);
 
       res

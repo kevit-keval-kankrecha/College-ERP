@@ -23,7 +23,7 @@ const departmentSchema = new Schema(
   },
 );
 
-export interface sampleDepartment {
+export interface IDepartment {
   name: String;
   totalSeat: Number;
   initial: String;

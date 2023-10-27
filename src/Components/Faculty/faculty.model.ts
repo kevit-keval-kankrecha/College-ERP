@@ -42,7 +42,7 @@ const facultySchema = new Schema(
   },
 );
 
-export interface sampleFaculty {
+export interface IFaculty {
   name: String;
   emailId: String;
   password: String;

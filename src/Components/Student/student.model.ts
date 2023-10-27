@@ -1,19 +1,15 @@
 import mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
+import * as validator from 'validator';
 
 const { Schema, model } = mongoose;
-
-const attandanceSchema = new mongoose.Schema({
-  studentId: String,
-  present: Boolean,
-});
 
 const userSchema = new mongoose.Schema({
   name: String,
   age: Number,
 });
 
-// Faculty Schema For DataBase
+// Student Schema For DataBase
 const studentSchema = new Schema(
   {
     name: {
@@ -23,6 +19,11 @@ const studentSchema = new Schema(
     emailId: {
       type: Schema.Types.String,
       required: true,
+      validate:(value)=>{
+        if(!validator.isEmail(value)){
+          throw new Error('Enter Valid Email Address')
+        }
+      }
     },
     password: {
       type: Schema.Types.String,
@@ -67,7 +68,7 @@ const studentSchema = new Schema(
   },
 );
 
-export interface sampleStudent {
+export interface IStudent {
   name: String;
   emailId: String;
   password: String;

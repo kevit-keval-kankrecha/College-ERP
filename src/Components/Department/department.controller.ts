@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { Response } from 'express';
 
-import { sampleDepartment } from './department.model';
+import { IDepartment } from './department.model';
 
 import { createDepartment, findDepartments, findDepartmentById } from './department.DAL';
 
@@ -13,7 +13,7 @@ class departmentController {
    */
   async createDepartment(req: Request, res: Response) {
     try {
-      const departmentObj: sampleDepartment = req.body;
+      const departmentObj: IDepartment = req.body;
 
       const department = await createDepartment(departmentObj);
       res.status(201).send({
