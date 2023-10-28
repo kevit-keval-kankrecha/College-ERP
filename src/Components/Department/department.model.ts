@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, {Document} from 'mongoose';
 
 const { Schema, model } = mongoose;
 
@@ -23,7 +23,7 @@ const departmentSchema = new Schema(
   },
 );
 
-export interface IDepartment {
+export interface IDepartment extends Document {
   name: String;
   totalSeat: Number;
   initial: String;

@@ -1,13 +1,11 @@
-import mongoose, { ObjectId, Schema } from 'mongoose';
-
-import Department from './department.model';
+import Department, { IDepartment } from './department.model';
 
 /**
  * Create New Department in DB
  * @param departmentBody => Department Object to be created.
  * @returns => New Created Department
  */
-export async function createDepartment(departmentBody: object) {
+export async function createDepartment(departmentBody: IDepartment) {
   try {
     return await Department.create(departmentBody);
   } catch (error) {
@@ -32,7 +30,7 @@ export async function findDepartments() {
  * @param id DepartmentID
  * @returns Department
  */
-export async function findDepartmentById(id: string) {
+export async function findDepartmentById(id: string) : Promise<IDepartment> {
   try {
     return await Department.findById(id);
   } catch (error) {
