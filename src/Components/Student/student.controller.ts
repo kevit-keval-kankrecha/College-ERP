@@ -53,7 +53,7 @@ class studentController {
     try {
       const { emailId, password } = req.body;
       if (!emailId || !password) {
-        return   res
+        return res
           .status(404)
           .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
       }
@@ -95,7 +95,7 @@ class studentController {
       const id = req.loginUser.id;
       const student = await findStudentById(id);
       if (!student) {
-        return  res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
+        return res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
       }
       student.authToken = ' ';
       await student.save();
@@ -158,7 +158,7 @@ class studentController {
       const student = await findStudentById(id);
 
       if (!student) {
-        return  res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
+        return res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
       }
       await student.deleteOne();
       res

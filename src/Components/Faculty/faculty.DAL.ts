@@ -47,6 +47,5 @@ export async function findFaculties() {
 export async function findFacultyById(id: ObjectId) {
   try {
     return await Faculty.findById(id);
-  } catch (error) {
-  }
+  } catch (error) {}
 }

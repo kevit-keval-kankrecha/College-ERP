@@ -19,10 +19,10 @@ export default async (req, res, next) => {
 
   //manage access in User Routes
   else if (req.baseUrl === '/faculty') {
-    if(!loginUser.role){
+    if (!loginUser.role) {
       res
-          .status(403)
-          .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
+        .status(403)
+        .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
     }
     //Admin can manage all user
     if (loginUser.role === 'Admin') {
@@ -31,7 +31,6 @@ export default async (req, res, next) => {
 
     //faculty can only change their data and view profile for theirself
     else if (loginUser.role === 'Faculty') {
-
       if (req.params.id === undefined) {
         req.params.id = req.loginUser._id;
       }
@@ -39,7 +38,6 @@ export default async (req, res, next) => {
         (req.method === 'PATCH' && req.params.id == req.loginUser._id && req.body.role !== 'Admin') ||
         (req.method === 'GET' && req.path === '/me')
       ) {
-
         next();
       } else {
         res
@@ -48,7 +46,6 @@ export default async (req, res, next) => {
       }
     }
   }
-
 
   //manage access for the student Routes
   else if (req.baseUrl === '/student') {

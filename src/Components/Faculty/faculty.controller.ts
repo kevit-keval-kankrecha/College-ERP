@@ -37,7 +37,7 @@ class facultyController {
     try {
       const { emailId, password } = req.body;
       if (!emailId || !password) {
-        return  res
+        return res
           .status(404)
           .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
       }
@@ -80,7 +80,7 @@ class facultyController {
       const id = req.loginUser.id;
       const faculty = await findFacultyById(id);
       if (!faculty) {
-        return  res.status(404).send({ success: false, error: { statusCode: 404, message: 'faculty not found' } });
+        return res.status(404).send({ success: false, error: { statusCode: 404, message: 'faculty not found' } });
       }
       faculty.authToken = ' ';
       await faculty.save();
@@ -117,7 +117,7 @@ class facultyController {
 
       const faculty = await findFacultyById(id);
       if (!faculty) {
-        return  res.status(404).send({ success: false, error: { statusCode: 404, message: 'faculty not found' } });
+        return res.status(404).send({ success: false, error: { statusCode: 404, message: 'faculty not found' } });
       }
 
       for (const field in req.body) {
@@ -162,9 +162,9 @@ class facultyController {
   async getProfile(req: Request, res: Response) {
     try {
       const faculty = await findFacultyById(req.loginUser._id);
-      
+
       if (!faculty) {
-        return  res.status(404).send({ success: false, error: { statusCode: 404, message: 'faculty not found' } });
+        return res.status(404).send({ success: false, error: { statusCode: 404, message: 'faculty not found' } });
       }
       res.status(200).send({ success: true, data: { statusCode: 200, data: faculty, message: 'Profile' } });
     } catch {
