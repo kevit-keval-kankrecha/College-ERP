@@ -19,11 +19,11 @@ const studentSchema = new Schema(
     emailId: {
       type: Schema.Types.String,
       required: true,
-      validate:(value)=>{
-        if(!validator.isEmail(value)){
-          throw new Error('Enter Valid Email Address')
+      validate: (value) => {
+        if (!validator.isEmail(value)) {
+          throw new Error('Enter Valid Email Address');
         }
-      }
+      },
     },
     password: {
       type: Schema.Types.String,

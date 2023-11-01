@@ -36,7 +36,7 @@ class app {
     const dbOptions = {
       maxPoolSize: 5,
       useNewUrlParser: true,
-      family:4
+      family: 4,
     };
     mongoose.connect(mongoUrl, dbOptions);
 

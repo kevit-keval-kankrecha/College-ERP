@@ -1,4 +1,4 @@
-import {ObjectId} from 'mongodb'
+import { ObjectId } from 'mongodb';
 
 import Student from './student.model';
 
@@ -519,9 +519,8 @@ export async function getVacancySeat(requestBody) {
   }
 }
 
-
-export async function getBatchAndYearWiseAvailableStudent(reqBody){
-  let {departmentId, batchYear} = reqBody;
+export async function getBatchAndYearWiseAvailableStudent(reqBody) {
+  let { departmentId, batchYear } = reqBody;
 
   //console.log(departmentId+" "+batchYear);
 
@@ -531,19 +530,20 @@ export async function getBatchAndYearWiseAvailableStudent(reqBody){
 
   const pipeline = [
     {
-      '$match': {
-        'departmentId': departmentId, 
-        'batchYear': batchYear
-      }
-    }, {
-      '$group': {
-        '_id': 'departmentId', 
-        'count': {
-          '$sum': 1
-        }
-      }
-    }
-  ]
+      $match: {
+        departmentId: departmentId,
+        batchYear: batchYear,
+      },
+    },
+    {
+      $group: {
+        _id: 'departmentId',
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+  ];
 
   const result = await Student.aggregate(pipeline).allowDiskUse(true).exec();
   return result[0].count;

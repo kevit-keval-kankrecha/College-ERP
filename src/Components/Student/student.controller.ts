@@ -27,13 +27,11 @@ class studentController {
    */
   async createStudent(req: Request, res: Response) {
     try {
-
-      const availableStudent =await getBatchAndYearWiseAvailableStudent(req.body);
+      const availableStudent = await getBatchAndYearWiseAvailableStudent(req.body);
       const totalSeats = await getTotalSeats(req.body);
 
-      if(totalSeats<=availableStudent){
-       return  res.status(400)
-        .send({ success: true, data: { statusCode: 201,  message: 'All Seats are occupied' } });
+      if (totalSeats <= availableStudent) {
+        return res.status(400).send({ success: true, data: { statusCode: 201, message: 'All Seats are occupied' } });
       }
       const studentObj: IStudent = req.body;
       const student = await createStudent(studentObj);

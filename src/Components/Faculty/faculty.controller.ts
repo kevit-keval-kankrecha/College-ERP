@@ -119,7 +119,7 @@ class facultyController {
       if (!faculty) {
         res.status(404).send({ success: false, error: { statusCode: 404, message: 'faculty not found' } });
       }
-      
+
       for (const field in req.body) {
         faculty[field] = req.body[field];
       }
