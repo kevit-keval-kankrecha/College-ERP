@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import attendanceController from './attendance.controller';
 import authentication from '../../utils/authentication';
-import {authorization} from '../../utils/authorization';
+import { authorization } from '../../utils/authorization';
 
 class attendanceRoutes {
   public router: Router;

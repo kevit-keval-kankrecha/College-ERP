@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import facultyController from './faculty.controller';
 import authentication from '../../utils/authentication';
-import {authorization} from '../../utils/authorization';
+import { authorization } from '../../utils/authorization';
 
 class facultyRoutes {
   public router: Router;
@@ -28,7 +28,12 @@ class facultyRoutes {
     this.router.get('/', authentication, authorization(['Admin']), this.facultyController.getFaculties);
 
     //Update User
-    this.router.patch('/update/:id?', authentication, authorization(['Admin','Faculty']), this.facultyController.updateFaculty);
+    this.router.patch(
+      '/update/:id?',
+      authentication,
+      authorization(['Admin', 'Faculty']),
+      this.facultyController.updateFaculty,
+    );
 
     //Delete User
     this.router.delete('/delete/:id?', authentication, authorization(['Admin']), this.facultyController.deleteFaculty);
