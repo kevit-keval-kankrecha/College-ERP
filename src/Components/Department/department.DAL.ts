@@ -1,3 +1,5 @@
+import {ObjectId} from 'mongodb';
+
 import Department, { IDepartment } from './department.model';
 
 /**
@@ -37,3 +39,12 @@ export async function findDepartmentById(id: string) : Promise<IDepartment> {
     throw new Error(error);
   }
 }
+
+export async function getTotalSeats(reqBody) {
+    let {departmentId} = reqBody;
+
+    departmentId = new ObjectId(departmentId);
+    const result = await Department.find({_id:departmentId});
+
+    return result[0].totalSeat;
+} 

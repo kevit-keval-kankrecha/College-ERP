@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose';
+import {ObjectId} from 'mongodb'
 
 import Student from './student.model';
 
@@ -517,4 +517,34 @@ export async function getVacancySeat(requestBody) {
   } catch (error) {
     throw new Error(error);
   }
+}
+
+
+export async function getBatchAndYearWiseAvailableStudent(reqBody){
+  let {departmentId, batchYear} = reqBody;
+
+  //console.log(departmentId+" "+batchYear);
+
+  departmentId = new ObjectId(departmentId);
+
+  // console.log(departmentId);
+
+  const pipeline = [
+    {
+      '$match': {
+        'departmentId': departmentId, 
+        'batchYear': batchYear
+      }
+    }, {
+      '$group': {
+        '_id': 'departmentId', 
+        'count': {
+          '$sum': 1
+        }
+      }
+    }
+  ]
+
+  const result = await Student.aggregate(pipeline).allowDiskUse(true).exec();
+  return result[0].count;
 }
