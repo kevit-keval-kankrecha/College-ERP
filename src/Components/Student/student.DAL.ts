@@ -519,7 +519,7 @@ export async function getVacancySeat(requestBody) {
   }
 }
 
-export async function getBatchAndYearWiseAvailableStudent(reqBody) {
+export async function getBatchAndYearWiseAllocateStudent(reqBody) {
   let { departmentId, batchYear } = reqBody;
 
   //console.log(departmentId+" "+batchYear);

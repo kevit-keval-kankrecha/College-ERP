@@ -10,7 +10,7 @@ import {
   findStudentById,
   findStudents,
   getAbsentStudentBatchYearSemesterDateWise,
-  getBatchAndYearWiseAvailableStudent,
+  getBatchAndYearWiseAllocateStudent,
   getMoreThen75PercentStudent,
   getVacancySeat,
 } from './student.DAL';
@@ -27,11 +27,11 @@ class studentController {
    */
   async createStudent(req: Request, res: Response) {
     try {
-      const availableStudent = await getBatchAndYearWiseAvailableStudent(req.body);
+      const allocateStudent = await getBatchAndYearWiseAllocateStudent(req.body);
       const totalSeats = await getTotalSeats(req.body);
 
-      if (totalSeats <= availableStudent) {
-        return res.status(400).send({ success: true, data: { statusCode: 201, message: 'All Seats are occupied' } });
+      if (totalSeats <= allocateStudent) {
+        return res.status(400).send({ success: true, data: { statusCode: 400, message: 'All Seats are occupied' } });
       }
       const studentObj: IStudent = req.body;
       const student = await createStudent(studentObj);
@@ -53,7 +53,7 @@ class studentController {
     try {
       const { emailId, password } = req.body;
       if (!emailId || !password) {
-        res
+        return   res
           .status(404)
           .send({ success: false, error: { statusCode: 404, message: 'Please Provide an emailId and password' } });
       }
@@ -95,7 +95,7 @@ class studentController {
       const id = req.loginUser.id;
       const student = await findStudentById(id);
       if (!student) {
-        res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
+        return  res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
       }
       student.authToken = ' ';
       await student.save();
@@ -132,7 +132,7 @@ class studentController {
 
       const student = await findStudentById(id);
       if (!student) {
-        res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
+        return res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
       }
 
       for (const field in req.body) {
@@ -158,7 +158,7 @@ class studentController {
       const student = await findStudentById(id);
 
       if (!student) {
-        res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
+        return  res.status(404).send({ success: false, error: { statusCode: 404, message: 'student not found' } });
       }
       await student.deleteOne();
       res
@@ -178,7 +178,7 @@ class studentController {
     try {
       const student = await findStudentById(req.loginUser._id);
       if (!student) {
-        res.status(404).send({ success: false, error: { statusCode: 404, message: 'Student  not found' } });
+        return res.status(404).send({ success: false, error: { statusCode: 404, message: 'Student  not found' } });
       }
       res.status(200).send({ success: true, data: { statusCode: 200, data: student, message: 'Profile' } });
     } catch {
