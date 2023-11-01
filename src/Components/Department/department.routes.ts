@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import departmentController from './department.controller';
 import authentication from '../../utils/authentication';
-import authorization from '../../utils/authorization';
+import {authorization} from '../../utils/authorization';
 
 class departmentRoutes {
   public router: Router;
@@ -16,16 +16,16 @@ class departmentRoutes {
 
   initializeRoutes() {
     //Create Department
-    this.router.post('/add', authentication, authorization, this.departmentController.createDepartment);
+    this.router.post('/add', authentication, authorization(['Admin']), this.departmentController.createDepartment);
 
     //List Departments
-    this.router.get('/', authentication, authorization, this.departmentController.getDepartments);
+    this.router.get('/', authentication, authorization(['Admin']), this.departmentController.getDepartments);
 
     //Update Department By Id
-    this.router.patch('/update/:id', authentication, authorization, this.departmentController.updateDepartment);
+    this.router.patch('/update/:id', authentication, authorization(['Admin']), this.departmentController.updateDepartment);
 
     //Delete Department By Id
-    this.router.delete('/delete/:id', authentication, authorization, this.departmentController.deleteDepartment);
+    this.router.delete('/delete/:id', authentication, authorization(['Admin']), this.departmentController.deleteDepartment);
   }
 }
 

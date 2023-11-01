@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import attendanceController from './attendance.controller';
 import authentication from '../../utils/authentication';
-import authorization from '../../utils/authorization';
+import {authorization} from '../../utils/authorization';
 
 class attendanceRoutes {
   public router: Router;
@@ -16,7 +16,7 @@ class attendanceRoutes {
 
   initializeRoutes() {
     //Student Attendance
-    this.router.post('/add', authentication, authorization, this.attendanceController.fillAttendance);
+    this.router.post('/add', authentication, authorization(['Admin']), this.attendanceController.fillAttendance);
   }
 }
 

@@ -1,98 +1,15 @@
-export default async (req, res, next) => {
-  const loginUser = req.loginUser;
+import { Request, Response, NextFunction } from 'express';
 
-  if (!loginUser) {
-    res.status(401).send({ success: false, error: { statusCode: 401, message: 'Unauthorized' } });
+export const authorization = (roles: string[]) => async (req, res, next) => {
+  
+  if(roles.includes(req.loginUser.role)){
+    next();
   }
-
-  //manage access in Department Routes
-  if (req.baseUrl === '/department') {
-    //only Admin can manage Department model
-    if (loginUser.role === 'Admin' && loginUser.role !== 'Faculty' && loginUser.role !== 'Student') {
-      next();
-    } else {
-      res
-        .status(403)
-        .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
-    }
+  else{
+    res.send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
   }
-
-  //manage access in User Routes
-  else if (req.baseUrl === '/faculty') {
-    if (!loginUser.role) {
-      res
-        .status(403)
-        .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
-    }
-    //Admin can manage all user
-    if (loginUser.role === 'Admin') {
-      next();
-    }
-
-    //faculty can only change their data and view profile for theirself
-    else if (loginUser.role === 'Faculty') {
-      if (req.params.id === undefined) {
-        req.params.id = req.loginUser._id;
-      }
-      if (
-        (req.method === 'PATCH' && req.params.id == req.loginUser._id && req.body.role !== 'Admin') ||
-        (req.method === 'GET' && req.path === '/me')
-      ) {
-        next();
-      } else {
-        res
-          .status(403)
-          .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
-      }
-    }
-  }
-
-  //manage access for the student Routes
-  else if (req.baseUrl === '/student') {
-    //Admin and Faculty can manage students
-    if (req.loginUser.role === 'Admin' || req.loginUser.role === 'Faculty') {
-      next();
-    }
-
-    //Student can only change their data and view profile for theirself
-    else if (loginUser.role === 'Student') {
-      if (req.params.id === undefined) {
-        req.params.id = req.loginUser._id;
-      }
-      if (
-        (req.method === 'PATCH' && req.params.id == req.loginUser._id) ||
-        (req.method === 'GET' && req.path === '/me')
-      ) {
-        next();
-      } else {
-        res
-          .status(403)
-          .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
-      }
-    }
-  }
-
-  //manage access for attendance
-  else if (req.baseUrl === '/attendance') {
-    //Admin and Faculty can manage students
-    if (req.loginUser.role === 'Admin' || req.loginUser.role === 'Faculty') {
-      next();
-    } else {
-      res
-        .status(403)
-        .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
-    }
-  }
-
-  //manage access for attendance
-  else if (req.baseUrl === '/analysis') {
-    //Admin and Faculty can manage students
-    if (req.loginUser.role === 'Admin' || req.loginUser.role === 'Faculty') {
-      next();
-    } else {
-      res
-        .status(403)
-        .send({ success: false, error: { statusCode: 403, message: 'You Have Not Permission to access it' } });
-    }
-  }
+  
 };
+
+
+
