@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "types": [
-      "node"
+      "node","jest"
     ],
     "skipLibCheck": true,
     "pretty": true,
@@ -12,7 +12,7 @@
     "rootDir": "./src",
     "outDir": "./lib",
     "baseUrl": "./src",
-    "removeComments": true
+    "removeComments": false
   },
   "exclude": [
     "node_modules"
